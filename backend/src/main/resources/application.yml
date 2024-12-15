@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: backend
+  datasource:
+    url: jdbc:mysql://106.14.253.101:3306/course_system
+    username: root
+    password: Tongji@123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8080
