@@ -1,16 +1,12 @@
 package com.tongji.backend.entity.dto;
-
-import lombok.Getter;
-
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 
 public class UserDto {
 
-    @Getter
+    private Integer userID;
     private String userName;
 
-    @Getter
     private String password;
 
     private String email;
@@ -21,16 +17,8 @@ public class UserDto {
 
     private String gender;
 
-
-    private Boolean isMember;
-
-
-    private Boolean isDelete;
-
-
     private String iconURL;
 
-    @Getter
     private String tags;
 
     private String introduction;
@@ -39,9 +27,15 @@ public class UserDto {
 
     private String goalType;
 
-//    private LocalTime duration;
-
     private Float goalWeight;
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -49,6 +43,18 @@ public class UserDto {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getTags() {
+        return tags;
     }
 
     public String getEmail() {
@@ -75,14 +81,6 @@ public class UserDto {
         this.age = age;
     }
 
-    public Boolean getMember() {
-        return isMember;
-    }
-
-    public void setMember(Boolean member) {
-        isMember = member;
-    }
-
     public String getGender() {
         return gender;
     }
@@ -97,14 +95,6 @@ public class UserDto {
 
     public void setIconURL(String iconURL) {
         this.iconURL = iconURL;
-    }
-
-    public Boolean getDelete() {
-        return isDelete;
-    }
-
-    public void setDelete(Boolean delete) {
-        isDelete = delete;
     }
 
     public void setTags(String tags) {
@@ -135,14 +125,6 @@ public class UserDto {
         this.salt = salt;
     }
 
-//    public LocalTime getDuration() {
-//        return duration;
-//    }
-//
-//    public void setDuration(LocalTime duration) {
-//        this.duration = duration;
-//    }
-
     public Float getGoalWeight() {
         return goalWeight;
     }
@@ -160,8 +142,6 @@ public class UserDto {
                 ", registrationTime=" + registrationTime +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
-                ", isMember=" + isMember +
-                ", isDelete=" + isDelete +
                 ", iconURL='" + iconURL + '\'' +
                 ", tags='" + tags + '\'' +
                 ", introduction='" + introduction + '\'' +

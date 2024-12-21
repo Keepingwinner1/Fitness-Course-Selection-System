@@ -12,4 +12,21 @@ public interface IUserService {
      */
     User add(UserDto user);
 
+    /**
+     * 获取用户
+     * @param userID
+     */
+    User get(Integer userID);
+
+    /**
+     * 修改用户
+     * @param user
+     */
+    User edit(UserDto user);
+
+    /**
+     * 删除用户
+     * @param userID
+     */
+    void delete(Integer userID);
 }

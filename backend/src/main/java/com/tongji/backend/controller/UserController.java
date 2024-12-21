@@ -16,25 +16,34 @@ public class UserController {
     @Autowired
     IUserService userService;
     //REST
-    //增加
+    //增加  //@RequestBody将前台传过来的JSON对象转为User对象
     @PostMapping
-    public ResponseMessage<User> addUser(@RequestBody UserDto user) {  //@RequestBody将前台传过来的JSON对象转为User对象
+    public ResponseMessage<User> addUser(@RequestBody UserDto user) {  // URL:  localhost:8080/user
+        //打印接收到的对象
+//        System.out.println(user);
         User userNew =userService.add(user);
         return ResponseMessage.success(userNew);
     }
 
-//    @Autowired
-//    UserMapper userMapper;
-//
-//    @RequestMapping("/getUserById")
-//    public String getUserById(int id) {
-//        User user = userMapper.selectById(id);
-//        return user!=null?user.getUsername()+"  "+user.getPassword():null;
-//    }
-//
-//    @RequestMapping("/createUser")
-//    public String createUser(String username, String password) {
-//        int i = userMapper.insert(username, password);
-//        return i>0?"success":"failed";
-//    }
+    //查询
+    @GetMapping("/{userID}")
+    public ResponseMessage<User> getUser(@PathVariable Integer userID) {  // URL:  localhost:8080/user/1
+        User user = userService.get(userID);
+        return ResponseMessage.success(user);
+    }
+
+    //修改
+    @PutMapping
+    public ResponseMessage<User> edit(@RequestBody UserDto user) {  // URL:  localhost:8080/user
+        User userNew =userService.edit(user);
+        return ResponseMessage.success(userNew);
+    }
+
+    //删除
+    @DeleteMapping("/{userID}")
+    public ResponseMessage<User> delete(@PathVariable Integer userID) {  // URL:  localhost:8080/user/1
+        userService.delete(userID);
+        return ResponseMessage.success(null);
+    }
+
 }

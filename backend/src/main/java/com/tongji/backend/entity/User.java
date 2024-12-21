@@ -5,59 +5,50 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userID", nullable = false, unique = true)
+    @Column(name = "userid")
     private Integer userID;
 
-    @Column(name = "userName",nullable = false)
+    @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "Password",nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "Email", nullable = false)
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "registrationTime", nullable = false)
+    @Column(name = "registration_time")
     private LocalDateTime registrationTime;
 
-    @Column(name = "Age")
+    @Column(name = "age")
     private Integer age;
 
-    @Column(name = "Gender")
+    @Column(name = "gender")
     private String gender;
 
-    @Column(name = "isMember", nullable = false)
-    private Boolean isMember;
-
-    @Column(name = "isDelete", nullable = false)
-    private Boolean isDelete;
-
-    @Column(name = "iconURL", length = 100)
+    @Column(name = "icon_url", length = 100)
     private String iconURL;
 
-    @Lob
-    @Column(name = "Tags")
+    @Column(name = "tags")
     private String tags;
 
-    @Column(name = "Introduction", length = 100)
+    @Column(name = "introduction", length = 100)
     private String introduction;
 
-    @Column(name = "Salt", nullable = false)
+    @Column(name = "salt")
     private String salt;
 
-    @Column(name = "goalType")
+    @Column(name = "goal_type")
     private String goalType;
 
-//    @Column(name = "Duration")
-//    private LocalTime duration;
-
-    @Column(name = "goalWeight")
+    @Column(name = "goal_weight")
     private Float goalWeight;
+
 
     // Getters and Setters
     public Integer getUserID() {
@@ -116,22 +107,6 @@ public class User {
         this.gender = gender;
     }
 
-    public Boolean getIsMember() {
-        return isMember;
-    }
-
-    public void setIsMember(Boolean isMember) {
-        this.isMember = isMember;
-    }
-
-    public Boolean getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Boolean isDelete) {
-        this.isDelete = isDelete;
-    }
-
     public String getIconURL() {
         return iconURL;
     }
@@ -172,13 +147,6 @@ public class User {
         this.goalType = goalType;
     }
 
-//    public LocalTime getDuration() {
-//        return duration;
-//    }
-//
-//    public void setDuration(LocalTime duration) {
-//        this.duration = duration;
-//    }
 
     public Float getGoalWeight() {
         return goalWeight;
