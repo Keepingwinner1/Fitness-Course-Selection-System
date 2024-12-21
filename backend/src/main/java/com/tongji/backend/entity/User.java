@@ -40,15 +40,22 @@ public class User {
     @Column(name = "introduction", length = 100)
     private String introduction;
 
-    @Column(name = "salt")
-    private String salt;
-
     @Column(name = "goal_type")
     private String goalType;
 
     @Column(name = "goal_weight")
     private Float goalWeight;
 
+    @Column(name = "type")
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     // Getters and Setters
     public Integer getUserID() {
@@ -129,14 +136,6 @@ public class User {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public String getGoalType() {

@@ -2,7 +2,7 @@ package com.tongji.backend.service;
 
 import com.tongji.backend.entity.User;
 import com.tongji.backend.entity.dto.UserDto;
-import com.tongji.backend.Repository.UserRepository;
+import com.tongji.backend.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

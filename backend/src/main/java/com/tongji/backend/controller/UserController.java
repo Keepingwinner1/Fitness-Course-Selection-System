@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user") //后续访问地址为 url/user/**
 public class UserController {
 
-
     @Autowired
     IUserService userService;
     //REST

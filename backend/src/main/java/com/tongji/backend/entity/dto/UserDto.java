@@ -23,8 +23,6 @@ public class UserDto {
 
     private String introduction;
 
-    private String salt;
-
     private String goalType;
 
     private Float goalWeight;
@@ -117,14 +115,6 @@ public class UserDto {
         this.introduction = introduction;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
     public Float getGoalWeight() {
         return goalWeight;
     }
@@ -145,7 +135,6 @@ public class UserDto {
                 ", iconURL='" + iconURL + '\'' +
                 ", tags='" + tags + '\'' +
                 ", introduction='" + introduction + '\'' +
-                ", salt='" + salt + '\'' +
                 ", goalType='" + goalType + '\'' +
                 ", goalWeight=" + goalWeight +
                 '}';
