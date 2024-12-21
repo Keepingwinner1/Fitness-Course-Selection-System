@@ -1,87 +1,54 @@
-package com.tongji.backend.entity;
+package com.tongji.backend.entity.dto;
 
-import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "User")
-public class User {
+public class UserDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userID", nullable = false, unique = true)
-    private Integer userID;
-
-    @Column(name = "userName",nullable = false)
+    @Getter
     private String userName;
 
-    @Column(name = "Password",nullable = false)
+    @Getter
     private String password;
 
-    @Column(name = "Email", nullable = false)
     private String email;
 
-    @Column(name = "registrationTime", nullable = false)
     private LocalDateTime registrationTime;
 
-    @Column(name = "Age")
     private Integer age;
 
-    @Column(name = "Gender")
     private String gender;
 
-    @Column(name = "isMember", nullable = false)
+
     private Boolean isMember;
 
-    @Column(name = "isDelete", nullable = false)
+
     private Boolean isDelete;
 
-    @Column(name = "iconURL", length = 100)
+
     private String iconURL;
 
-    @Lob
-    @Column(name = "Tags")
+    @Getter
     private String tags;
 
-    @Column(name = "Introduction", length = 100)
     private String introduction;
 
-    @Column(name = "Salt", nullable = false)
     private String salt;
 
-    @Column(name = "goalType")
     private String goalType;
 
-//    @Column(name = "Duration")
 //    private LocalTime duration;
 
-    @Column(name = "goalWeight")
     private Float goalWeight;
 
-    // Getters and Setters
-    public Integer getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Integer userID) {
-        this.userID = userID;
-    }
-
-    public String getUserName() {
-        return userName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
@@ -108,28 +75,20 @@ public class User {
         this.age = age;
     }
 
+    public Boolean getMember() {
+        return isMember;
+    }
+
+    public void setMember(Boolean member) {
+        isMember = member;
+    }
+
     public String getGender() {
         return gender;
     }
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public Boolean getIsMember() {
-        return isMember;
-    }
-
-    public void setIsMember(Boolean isMember) {
-        this.isMember = isMember;
-    }
-
-    public Boolean getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Boolean isDelete) {
-        this.isDelete = isDelete;
     }
 
     public String getIconURL() {
@@ -140,12 +99,24 @@ public class User {
         this.iconURL = iconURL;
     }
 
-    public String getTags() {
-        return tags;
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getGoalType() {
+        return goalType;
+    }
+
+    public void setGoalType(String goalType) {
+        this.goalType = goalType;
     }
 
     public String getIntroduction() {
@@ -164,14 +135,6 @@ public class User {
         this.salt = salt;
     }
 
-    public String getGoalType() {
-        return goalType;
-    }
-
-    public void setGoalType(String goalType) {
-        this.goalType = goalType;
-    }
-
 //    public LocalTime getDuration() {
 //        return duration;
 //    }
@@ -186,5 +149,25 @@ public class User {
 
     public void setGoalWeight(Float goalWeight) {
         this.goalWeight = goalWeight;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", registrationTime=" + registrationTime +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", isMember=" + isMember +
+                ", isDelete=" + isDelete +
+                ", iconURL='" + iconURL + '\'' +
+                ", tags='" + tags + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", salt='" + salt + '\'' +
+                ", goalType='" + goalType + '\'' +
+                ", goalWeight=" + goalWeight +
+                '}';
     }
 }
