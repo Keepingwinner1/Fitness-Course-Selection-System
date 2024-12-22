@@ -2,7 +2,7 @@ package com.tongji.backend.entity.dto;
 import java.time.LocalDateTime;
 
 
-public class UserDto {
+public class UserDTO {
 
     private Integer userID;
     private String userName;

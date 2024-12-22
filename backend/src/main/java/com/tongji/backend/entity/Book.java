@@ -25,7 +25,7 @@ public class Book {
     private String payMethod;
 
     @Column(name = "book_status")
-    private Boolean bookStatus;
+    private Integer bookStatus;
 
     @Column(name = "book_time")
     private LocalDateTime bookTime;
@@ -71,11 +71,11 @@ public class Book {
         this.payMethod = payMethod;
     }
 
-    public Boolean getBookStatus() {
+    public Integer getBookStatus() {
         return bookStatus;
     }
 
-    public void setBookStatus(Boolean bookStatus) {
+    public void setBookStatus(Integer bookStatus) {
         this.bookStatus = bookStatus;
     }
 

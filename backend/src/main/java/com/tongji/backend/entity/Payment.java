@@ -12,8 +12,8 @@ public class Payment {
     @Column(name = "payment_id", nullable = false, unique = true)
     private Integer paymentId;
 
-    @Column(name = "book_id")
-    private Integer bookId;
+    @Column(name = "book_ids")
+    private String  bookIds;
 
     @Column(name = "amount")
     private Integer amount;
@@ -32,16 +32,16 @@ public class Payment {
         return paymentId;
     }
 
+    public String getBookIds() {
+        return bookIds;
+    }
+
+    public void setBookIds(String bookIds) {
+        this.bookIds = bookIds;
+    }
+
     public void setPaymentId(Integer paymentId) {
         this.paymentId = paymentId;
-    }
-
-    public Integer getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
     }
 
     public Integer getAmount() {
