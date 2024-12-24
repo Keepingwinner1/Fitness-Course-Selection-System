@@ -16,13 +16,8 @@ public class AdminService implements IAdminService {
      GymRepository gymRepository;
 
      @Override
-     public boolean addAdmin(Admin admin) {
-         try {
-             adminRepository.save(admin);
-             return true;
-         }
-         catch (Exception e) {
-             return false;
-         }
+     public Admin addAdmin(Admin admin) {
+
+         return adminRepository.save(admin);
      }
 }

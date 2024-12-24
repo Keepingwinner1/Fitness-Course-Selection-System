@@ -3,6 +3,8 @@ package com.tongji.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,4 +45,8 @@ public class Coach {
     @NonNull
     @Column(name = "gymID", nullable = false)
     private String gymID;
+
+    @NonNull
+    @Column(name = "registerTime", nullable = false)
+    private LocalDateTime registerTime;
 }

@@ -30,5 +30,7 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
             "WHERE p.traineeId = :userID AND c.courseEndTime < :now")
     List<CourseClass> findCompletedClassesByUser(@Param("userID") Integer userID, @Param("now") LocalDateTime now);
 
+    @Query("select c from Teaches t join CourseClass c on t.classID=c.classId where t.coachID=?1")
+    List<CourseClass> findTeachClass(Integer coachID);
 }
 

@@ -2,6 +2,7 @@ package com.tongji.backend.controller;
 
 
 import com.tongji.backend.entity.Gym;
+import com.tongji.backend.entity.dto.GymDTO;
 import com.tongji.backend.entity.dto.ResponseMessage;
 import com.tongji.backend.service.GymService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,9 @@ public class GymController {
     private GymService gymService;
 
     @PostMapping("/createGym")
-    public ResponseMessage<String> createGym(@RequestBody Gym gym) {
-        if(gymService.createGym(gym)){
-            return ResponseMessage.success(null);
-        }
-        else {
-            return ResponseMessage.error("创建健身房失败");
-        }
+    public ResponseMessage<Gym> createGym(@RequestBody GymDTO gym) {
+            return ResponseMessage.success(gymService.createGym(gym));
     }
+
+
 }

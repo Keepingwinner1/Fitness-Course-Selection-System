@@ -17,10 +17,10 @@ public class Teaches {
     private Integer id;
 
     @NonNull
-    @Column(name = "courseID")
-    private Integer courseID;
-
-    @NonNull
     @Column(name = "coachID")
     private Integer coachID;
+
+    @Column(name = "classID", nullable = false)
+    private Integer classID;
+
 }

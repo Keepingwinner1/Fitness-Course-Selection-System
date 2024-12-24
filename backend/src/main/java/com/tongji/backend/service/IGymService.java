@@ -1,9 +1,9 @@
 package com.tongji.backend.service;
 
 import com.tongji.backend.entity.Gym;
+import com.tongji.backend.entity.dto.GymDTO;
 
 public interface IGymService {
 
-    //创建健身房
-    boolean createGym(Gym gym);
+    Gym createGym(GymDTO gymDTO);
 }

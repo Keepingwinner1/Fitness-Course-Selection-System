@@ -3,6 +3,8 @@ package com.tongji.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,5 +25,9 @@ public class Gym {
     @NonNull
     @Column(name = "address")
     private String address;
+
+    @NonNull
+    @Column(name = "createTime", nullable = false)
+    private LocalDateTime createTime;
 
 }
