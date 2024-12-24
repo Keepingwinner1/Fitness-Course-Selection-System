@@ -16,7 +16,7 @@ public class Coach {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "coachID", nullable = false)
-    private Integer id;
+    private Integer coachID;
 
     @NonNull
     @Column(name = "userID", nullable = false)
@@ -44,9 +44,14 @@ public class Coach {
 
     @NonNull
     @Column(name = "gymID", nullable = false)
-    private String gymID;
+    private Integer gymID;
 
     @NonNull
     @Column(name = "registerTime", nullable = false)
     private LocalDateTime registerTime;
+
+    @NonNull
+    @Column(name = "status", nullable = false)
+    private Integer status;
+
 }

@@ -26,7 +26,13 @@ public class CoachController {
 
     @PostMapping("/login")
     public ResponseMessage<Coach> login(@RequestBody LoginDTO loginDTO) {
-        return ResponseMessage.success(coachService.coachLogin(loginDTO));
+        Coach coach =coachService.coachLogin(loginDTO);
+        if(coach.getStatus()!=0) {
+            return ResponseMessage.success(coach);
+        }
+        else{
+            return ResponseMessage.error("教练申请还未通过");
+        }
     }
 
     @GetMapping("/getAllClass/{coachID}")
@@ -79,6 +85,38 @@ public class CoachController {
             return ResponseMessage.successmsg("作业发布成功");
         }
         catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/modifyTask")
+    public ResponseMessage<String> modifyTask(@RequestBody Task task){
+        try{
+            coachService.modifyTask(task);
+            return ResponseMessage.successmsg("任务修改成功");
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/deleteTask/{taskID}")
+    public ResponseMessage<String> deleteTask( @PathVariable Integer taskID){
+        try{
+            coachService.deleteTask(taskID);
+            return ResponseMessage.successmsg("任务删除成功");
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
+    }
+
+    @PutMapping("/modifyCoach")
+    public ResponseMessage<String> modifyCoach(@RequestBody CoachDTO coachDTO){
+        try{
+            coachService.modifyCoach(coachDTO);
+            return ResponseMessage.successmsg("信息修改成功");
+        } catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
         }
     }

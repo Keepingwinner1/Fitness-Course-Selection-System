@@ -8,10 +8,12 @@ import com.tongji.backend.entity.dto.PaymentDTO;
 import com.tongji.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +33,10 @@ public class CourseService implements ICourseService {
 
     @Autowired
     private ParticipateRepository participateRepository;
+    @Autowired
+    private GymRepository gymRepository;
+    @Autowired
+    private RefundRepository refundRepository;
 
     @Override
     public List<ClassDTO> getAllCourses() {
@@ -172,6 +178,19 @@ public class CourseService implements ICourseService {
     }
 
     @Override
+    public List<ClassDTO> getAllcreateCLass(Integer gymID){
+        List<CourseClass> classes=classRepository.findByGymID(gymID);
+
+        return classes.stream()
+                .map(classEntity -> {
+                    Course courseEntity = courseRepository.findById(classEntity.getCourseId())
+                            .orElseThrow(() -> new IllegalArgumentException("课程信息不完整"));
+                    return mapToClassDTO(classEntity, courseEntity);
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Book bookCourse(BookDTO bookDTO ) {
         Book book = new Book();
         book.setClassId(bookDTO.getClassId());
@@ -280,6 +299,22 @@ public class CourseService implements ICourseService {
         participateRepository.save(participate);
     }
 
+    @Override
+    @Transactional
+    public void quitCourse(Integer bookID, Integer userID){
+        Optional<Book> book =  bookRepository.findById(bookID);
+        if(book.isPresent()){
+            Book bookEntity = book.get();
+            Integer gymID=gymRepository.findByBookID(bookEntity.getBookId());
+            Payment payment=new Payment();
+            payment.setPaymentStatus(3);
+            payment.setPayMethod(null);
+            payment.setPayTime(LocalDateTime.now());
+            payment.setAmount(classRepository.findById(bookEntity.getClassId()).orElseThrow(()->new RuntimeException("未找到课程")).getCoursePrice());
+            var p =paymentRepository.save(payment);
+            refundRepository.save(new Refund(p.getPaymentId(),gymID,userID,LocalDateTime.now(),0,bookID));
+        }
+    }
 
 
     private ClassDTO mapToClassDTO(CourseClass classEntity, Course courseEntity) {

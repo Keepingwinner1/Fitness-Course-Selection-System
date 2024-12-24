@@ -6,10 +6,9 @@ import com.tongji.backend.entity.dto.GymDTO;
 import com.tongji.backend.entity.dto.ResponseMessage;
 import com.tongji.backend.service.GymService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/gym")
@@ -23,5 +22,8 @@ public class GymController {
             return ResponseMessage.success(gymService.createGym(gym));
     }
 
-
+    @GetMapping("/getAllGym")
+    public ResponseMessage<List<Gym>> getAllGym() {
+        return ResponseMessage.success(gymService.getAllGym());
+    }
 }

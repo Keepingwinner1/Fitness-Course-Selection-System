@@ -20,6 +20,7 @@ public class Teaches {
     @Column(name = "coachID")
     private Integer coachID;
 
+    @NonNull
     @Column(name = "classID", nullable = false)
     private Integer classID;
 

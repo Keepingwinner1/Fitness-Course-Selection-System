@@ -1,11 +1,14 @@
 package com.tongji.backend.controller;
 
 
+import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.User;
 import com.tongji.backend.entity.dto.*;
 import com.tongji.backend.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController //接口对象返回对象，转换成JSON对象
 @RequestMapping("/user") //后续访问地址为 url/user/**
@@ -36,6 +39,12 @@ public class UserController {
     public ResponseMessage<ProfileDTO> editUserProfile(@RequestBody ProfileDTO profileDTO) {
         ProfileDTO profile = userService.editProfile(profileDTO);
         return ResponseMessage.success(profile);
+    }
+
+    @GetMapping("/getTasks/{classID}")
+    public ResponseMessage<List<Task>> getTasks(@PathVariable Integer classID) {
+        List<Task> tasks=userService.getTasks(classID);
+        return ResponseMessage.success(tasks);
     }
 
 

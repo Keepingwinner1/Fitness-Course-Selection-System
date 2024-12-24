@@ -1,7 +1,9 @@
 package com.tongji.backend.entity.dto;
 
 
+import lombok.Data;
 
+@Data
 public class CoachDTO {
 
     private Integer userID;

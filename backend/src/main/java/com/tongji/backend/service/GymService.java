@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class GymService implements IGymService {
@@ -21,5 +22,10 @@ public class GymService implements IGymService {
         BeanUtils.copyProperties(gymDTO,gym);
         gym.setCreateTime(LocalDateTime.now());
         return gymRepository.save(gym);
+    }
+
+    @Override
+    public List<Gym> getAllGym() {
+        return gymRepository.findAll();
     }
 }

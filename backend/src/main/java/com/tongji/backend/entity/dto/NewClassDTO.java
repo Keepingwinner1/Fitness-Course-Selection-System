@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 public class NewClassDTO {
 
+    private Integer coachID;
 
     private Integer courseId;
 

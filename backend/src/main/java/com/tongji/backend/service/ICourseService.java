@@ -34,6 +34,8 @@ public interface ICourseService {
     // 获取用户已取消预订的课程
     List<ClassDTO> getAllCanceledCoursesByUser(Integer userID);
 
+    List<ClassDTO> getAllcreateCLass(Integer gymID);
+
     // 用户预订课程（加入购物车）
     Book bookCourse(BookDTO bookDTO);
 
@@ -49,5 +51,6 @@ public interface ICourseService {
     // 课程结束后评价课程
     void evaluateCourse(EvaluationDTO evaluationDTO);
 
+    void quitCourse(Integer classID, Integer userID);
 }
 

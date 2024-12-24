@@ -25,4 +25,10 @@ public interface ICoachService {
     boolean modifyClass(ClassDTO classDTO);
 
     boolean createTask(Task task);
+
+    boolean modifyTask(Task task);
+
+    boolean deleteTask(Integer taskID);
+
+    void modifyCoach(CoachDTO coachDTO);
 }
