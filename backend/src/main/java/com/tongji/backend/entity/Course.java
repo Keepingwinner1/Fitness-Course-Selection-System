@@ -26,6 +26,7 @@ public class Course {
     @Column(name = "course_photo_url")
     private String coursePhotoUrl;
 
+
     public Integer getCourseId() {
         return courseId;
     }
