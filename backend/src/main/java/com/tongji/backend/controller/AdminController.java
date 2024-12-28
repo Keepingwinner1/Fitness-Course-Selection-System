@@ -19,15 +19,11 @@ public class AdminController {
     private CourseService courseService;
 
     //注册成为某健身房的管理员
-    @PostMapping("/register/{userID}/{gymID}")
-    public ResponseMessage<Admin> register(@PathVariable int userID, @PathVariable int gymID) {
-        try {
-            return ResponseMessage.success(adminService.addAdmin(new Admin(userID, gymID)));
-        }
-        catch (Exception e) {
-            return ResponseMessage.error(e.getMessage());
-        }
-    }
+    //    @GetMapping("/register/{userID}/{gymID}")
+    //    public ResponseMessage<Admin> register(@PathVariable int userID, @PathVariable int gymID) {
+    //        return ResponseMessage.success(adminService.addAdmin(new Admin(userID,gymID)));
+    //    }
+
 
     @GetMapping("/login")
     public ResponseMessage<Admin> login(@RequestBody LoginDTO loginDTO) {

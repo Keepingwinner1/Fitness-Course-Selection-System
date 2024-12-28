@@ -20,32 +20,19 @@ public class CoachController {
     private CoachService coachService;
 
 
-    @PostMapping("/register")
-    public ResponseMessage<Coach> register(@RequestBody CoachDTO coach) {
-        try {
-            return ResponseMessage.success(coachService.addCoach(coach));
-        }
-        catch (Exception e) {
-            return ResponseMessage.error(e.getMessage());
-        }
-    }
+//    @PostMapping("/register")
+//    public ResponseMessage<Coach> register(@RequestBody CoachDTO coach) {
+//        return ResponseMessage.success(coachService.addCoach(coach));
+//    }
 
     @GetMapping("/login")
     public ResponseMessage<Coach> login(@RequestBody LoginDTO loginDTO) {
-        try {
-            Coach coach = coachService.coachLogin(loginDTO);
-            if (coach != null) {
-                if (coach.getStatus() != 0) {
-                    return ResponseMessage.success(coach);
-                } else {
-                    return ResponseMessage.error("教练申请还未通过");
-                }
-            } else {
-                return ResponseMessage.error("教练不存在");
-            }
+        Coach coach =coachService.coachLogin(loginDTO);
+        if(coach.getStatus()!=0) {
+            return ResponseMessage.success(coach);
         }
-        catch (Exception e) {
-            return ResponseMessage.error(e.getMessage());
+        else{
+            return ResponseMessage.error("教练申请还未通过");
         }
     }
     @GetMapping("/getAllClass/{coachID}")
@@ -66,6 +53,7 @@ public class CoachController {
             return ResponseMessage.error(e.getMessage());
         }
     }
+
     @PostMapping("/createClass")
     public ResponseMessage<String> createClass(@RequestBody NewClassDTO newClassDTO) {
         try {

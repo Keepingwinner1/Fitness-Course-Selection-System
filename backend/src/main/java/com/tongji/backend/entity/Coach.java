@@ -43,11 +43,11 @@ public class Coach {
     private String cardID;
 
     @NonNull
-    @Column(name = "gym_id", nullable = false)
+    @Column(name = "gym_id")
     private Integer gymID;
 
     @NonNull
-    @Column(name = "register_time", nullable = false)
+    @Column(name = "register_time")
     private LocalDateTime registerTime;
 
     @NonNull

@@ -1,5 +1,6 @@
 package com.tongji.backend.entity.dto;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,9 @@ public class RegisterDTO {
     private String userName;
     private String password;
     private String type; //user coach admin
+    private Integer gymID;
+    private String gymName;
+    private String address;
 
     public String getUserName() {
         return userName;
@@ -34,4 +38,27 @@ public class RegisterDTO {
         this.type = type;
     }
 
+    public Integer getGymID() {
+        return gymID;
+    }
+
+    public void setGymID(int gymID) {
+        this.gymID = gymID;
+    }
+
+    public String getGymName() {
+        return gymName;
+    }
+
+    public void setGymName(String gymName) {
+        this.gymName = gymName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
