@@ -68,6 +68,7 @@ public class UserService implements IUserService {
             Coach coach = new Coach();
             coach.setUserID(res.getUserID());
             //BeanUtils.copyProperties(registerDTO, coach);
+            coach.setStatus(0);
             coachRepository.save(coach);
         } else if (registerDTO.getType().equals("admin")) {
             //如果传入的gymID为空，代表需要先创建gym
