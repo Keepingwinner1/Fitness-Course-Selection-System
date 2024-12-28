@@ -15,19 +15,19 @@ import java.time.LocalDateTime;
 public class Refund {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "refundID", nullable = false)
+    @Column(name = "refund_id", nullable = false)
     private Integer refundID;
 
     @NonNull
-    @Column(name = "paymentID", nullable = false)
+    @Column(name = "payment_id", nullable = false)
     private Integer paymentID;
 
     @NonNull
-    @Column(name = "gymID", nullable = false)
+    @Column(name = "gym_id", nullable = false)
     private Integer gymID;
 
     @NonNull
-    @Column(name = "userID")
+    @Column(name = "user_id")
     private Integer userID;
 
     @NonNull
@@ -39,7 +39,7 @@ public class Refund {
     private Integer status;
 
     @NonNull
-    @Column(name = "bookID")
+    @Column(name = "book_id")
     private Integer bookID;
 
 }

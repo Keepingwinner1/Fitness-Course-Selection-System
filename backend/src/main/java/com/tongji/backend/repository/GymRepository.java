@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface GymRepository extends JpaRepository<Gym, Integer> {
 
-    @Query("select ccc.gymID from (select t from (select c from CourseClass c join Book b on b.classId=c.classId where b.bookId=?1) as cc" +
-            " join Teaches t on cc.classId=t.classID) as tt" +
-            " join Coach ccc on tt.coachID=ccc.coachID")
+    @Query("select ccc.gymID from  CourseClass c join Book b on b.classId=c.classId " +
+            " join Teaches t on c.classId=t.classID " +
+            " join Coach ccc on t.coachID=ccc.coachID where b.bookId=?1")
     Integer findByBookID(Integer bookID);
 }

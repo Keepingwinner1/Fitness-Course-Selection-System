@@ -15,19 +15,19 @@ import java.time.LocalDateTime;
 public class Coach {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coachID", nullable = false)
+    @Column(name = "coach_id", nullable = false)
     private Integer coachID;
 
     @NonNull
-    @Column(name = "userID", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Integer userID;
 
     @NonNull
-    @Column(name = "realName", length = 20)
+    @Column(name = "real_name", length = 20)
     private String realName;
 
     @NonNull
-    @Column(name = "IDnumber", length = 18)
+    @Column(name = "id_number", length = 18)
     private String IDNumber;
 
     @NonNull
@@ -39,15 +39,15 @@ public class Coach {
     private String address;
 
     @NonNull
-    @Column(name = "cardID", length = 20)
+    @Column(name = "card_id", length = 20)
     private String cardID;
 
     @NonNull
-    @Column(name = "gymID", nullable = false)
+    @Column(name = "gym_id", nullable = false)
     private Integer gymID;
 
     @NonNull
-    @Column(name = "registerTime", nullable = false)
+    @Column(name = "register_time", nullable = false)
     private LocalDateTime registerTime;
 
     @NonNull

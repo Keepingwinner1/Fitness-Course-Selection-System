@@ -13,15 +13,15 @@ import lombok.*;
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "adminID", nullable = false)
+    @Column(name = "admin_id", nullable = false)
     private Integer id;
 
     @NonNull
-    @Column(name = "userID")
+    @Column(name = "user_id")
     private Integer userID;
 
     @NonNull
-    @Column(name = "gymID")
+    @Column(name = "gym_id")
     private Integer gymID;
 
 }

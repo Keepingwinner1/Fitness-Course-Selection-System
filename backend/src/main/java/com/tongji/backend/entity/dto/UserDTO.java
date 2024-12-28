@@ -1,7 +1,9 @@
 package com.tongji.backend.entity.dto;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
-
+@Data
 public class UserDTO {
 
     private Integer userID;

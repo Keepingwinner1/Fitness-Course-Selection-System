@@ -14,15 +14,15 @@ import java.time.LocalDateTime;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "taskID", nullable = false)
+    @Column(name = "task_id", nullable = false)
     private Integer taskID;
 
     @NonNull
-    @Column(name = "classID", nullable = false)
+    @Column(name = "class_id", nullable = false)
     private Integer classID;
 
     @NonNull
-    @Column(name = "taskName", length = 20)
+    @Column(name = "task_name", length = 20)
     private String taskName;
 
     @NonNull
@@ -30,11 +30,11 @@ public class Task {
     private String description;
 
     @NonNull
-    @Column(name = "publishTime")
+    @Column(name = "publish_time")
     private LocalDateTime publishTime;
 
     @NonNull
-    @Column(name = "endTime")
+    @Column(name = "end_time")
     private LocalDateTime endTime;
 
 }
