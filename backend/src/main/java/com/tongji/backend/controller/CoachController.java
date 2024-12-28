@@ -49,7 +49,7 @@ public class CoachController {
     public ResponseMessage<String> createClass(@RequestBody NewClassDTO newClassDTO) {
         try {
             coachService.createClass(newClassDTO);
-            return ResponseMessage.successmsg("新班级创建成功");
+            return ResponseMessage.success("新班级创建成功");
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
@@ -60,7 +60,7 @@ public class CoachController {
     public ResponseMessage<String> createCourse(@RequestBody NewCourseDTO courseDTO) {
         try {
             coachService.createCourse(courseDTO);
-            return ResponseMessage.successmsg("新课程创建成功");
+            return ResponseMessage.success("新课程创建成功");
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
@@ -71,7 +71,7 @@ public class CoachController {
     public ResponseMessage<String> modifyClass(@RequestBody ClassDTO classDTO) {
         try {
             coachService.modifyClass(classDTO);
-            return ResponseMessage.successmsg("课程信息修改成功");
+            return ResponseMessage.success("课程信息修改成功");
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
@@ -82,7 +82,7 @@ public class CoachController {
     public ResponseMessage<String> createTask(@RequestBody Task task){
         try {
             coachService.createTask(task);
-            return ResponseMessage.successmsg("作业发布成功");
+            return ResponseMessage.success("作业发布成功");
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
@@ -93,7 +93,7 @@ public class CoachController {
     public ResponseMessage<String> modifyTask(@RequestBody Task task){
         try{
             coachService.modifyTask(task);
-            return ResponseMessage.successmsg("任务修改成功");
+            return ResponseMessage.success("任务修改成功");
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
@@ -104,7 +104,7 @@ public class CoachController {
     public ResponseMessage<String> deleteTask( @PathVariable Integer taskID){
         try{
             coachService.deleteTask(taskID);
-            return ResponseMessage.successmsg("任务删除成功");
+            return ResponseMessage.success("任务删除成功");
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
@@ -115,7 +115,7 @@ public class CoachController {
     public ResponseMessage<String> modifyCoach(@RequestBody CoachDTO coachDTO){
         try{
             coachService.modifyCoach(coachDTO);
-            return ResponseMessage.successmsg("信息修改成功");
+            return ResponseMessage.success("信息修改成功");
         } catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
         }

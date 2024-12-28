@@ -6,10 +6,9 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "admin", schema = "course_system")
+@Table(name = "admin")
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +22,10 @@ public class Admin {
     @NonNull
     @Column(name = "gym_id")
     private Integer gymID;
+
+    public Admin(int userID, int gymID) {
+        this.userID = userID;
+        this.gymID = gymID;
+    }
 
 }

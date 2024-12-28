@@ -72,7 +72,7 @@ public class AdminController {
     public ResponseMessage<String> proRefund(@RequestBody ProcessDTO processDTO) {
         try {
             adminService.proRefund(processDTO);
-            return ResponseMessage.successmsg("退款处理成功");
+            return ResponseMessage.success("退款处理成功");
         }
         catch(Exception e){
             return ResponseMessage.error(e.getMessage());
@@ -83,7 +83,7 @@ public class AdminController {
     public ResponseMessage<String> proClassCreate(@RequestBody ProcessDTO processDTO) {
         try{
             adminService.proClassCreate(processDTO);
-            return ResponseMessage.successmsg("课程审核处理成功");
+            return ResponseMessage.success("课程审核处理成功");
         }
         catch (Exception e){
             return ResponseMessage.error(e.getMessage());
@@ -94,7 +94,7 @@ public class AdminController {
     public ResponseMessage<String> proCoach(@RequestBody ProcessDTO processDTO) {
         try{
             adminService.proCoach(processDTO);
-            return ResponseMessage.successmsg("教练审核处理成功");
+            return ResponseMessage.success("教练审核处理成功");
         }
         catch (Exception e){
             return ResponseMessage.error(e.getMessage());

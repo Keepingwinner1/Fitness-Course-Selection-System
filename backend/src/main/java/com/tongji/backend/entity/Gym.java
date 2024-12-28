@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "gym", schema = "course_system")
+@Table(name = "gym")
 public class Gym {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

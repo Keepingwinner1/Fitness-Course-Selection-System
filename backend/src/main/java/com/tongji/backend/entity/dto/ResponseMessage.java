@@ -20,7 +20,7 @@ public class ResponseMessage<T> {
         return new ResponseMessage<>(HttpStatus.OK.value(),"success",  data);
     }
 
-    public static <T> ResponseMessage<T> successmsg(String msg) {
+    public static <T> ResponseMessage<T> success(String msg) {
         return new ResponseMessage<>(HttpStatus.OK.value(),  msg,null);
     }
 

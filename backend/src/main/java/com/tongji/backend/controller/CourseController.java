@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
@@ -76,7 +74,6 @@ public class CourseController {
     }
 
 
-
     // 用户预订课程（加入购物车）
     @PostMapping("/book")
     public ResponseMessage<Book> bookCourse(@RequestBody BookDTO bookDTO) {
@@ -116,7 +113,7 @@ public class CourseController {
     public ResponseMessage<String> quitCourse(@PathVariable Integer userID, @PathVariable Integer bookID) {
         try {
             courseService.quitCourse(bookID, userID);
-            return ResponseMessage.successmsg("已发送退款申请");
+            return ResponseMessage.success("已发送退款申请");
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());

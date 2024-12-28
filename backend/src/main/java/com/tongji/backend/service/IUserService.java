@@ -5,6 +5,7 @@ import com.tongji.backend.entity.User;
 import com.tongji.backend.entity.dto.LoginDTO;
 import com.tongji.backend.entity.dto.ProfileDTO;
 import com.tongji.backend.entity.dto.RegisterDTO;
+import com.tongji.backend.entity.dto.ResponseMessage;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

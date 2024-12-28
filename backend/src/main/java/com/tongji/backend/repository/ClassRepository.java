@@ -33,7 +33,11 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
     @Query("select c from Teaches t join CourseClass c on t.classID=c.classId where t.coachID=?1")
     List<CourseClass> findTeachClass(Integer coachID);
 
-    @Query("select cc from Teaches t join Coach c on t.coachID=c.coachID join CourseClass cc on t.classID=cc.classId where c.gymID=?1 and cc.status=0")
-    List<CourseClass> gymClass(Integer gymID);
+    @Query("SELECT cc FROM CourseClass cc " +
+            "JOIN Teaches t ON cc.classId = t.classID " +
+            "JOIN Coach c ON t.coachID = c.coachID " +
+            "WHERE c.gymID = :gymID AND cc.status = 0")
+    List<CourseClass> findByGymID(@Param("gymID") Integer gymID);
+
 }
 

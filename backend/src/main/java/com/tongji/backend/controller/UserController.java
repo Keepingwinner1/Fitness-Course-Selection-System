@@ -19,8 +19,14 @@ public class UserController {
 
     @PostMapping("/login") // 登录
     public ResponseMessage<User> login(@RequestBody LoginDTO loginDTO) {
-        User user = userService.login(loginDTO);
-        return ResponseMessage.success(user);
+        try {
+            User user = userService.login(loginDTO);
+            return ResponseMessage.success(user);
+        } catch (IllegalArgumentException e) {
+            return ResponseMessage.error(e.getMessage());
+        } catch (Exception e) {
+            return ResponseMessage.error("登录失败，请稍后再试");
+        }
     }
 
     @PostMapping("/register") // 注册
@@ -28,6 +34,7 @@ public class UserController {
         User user = userService.register(registerDTO);
         return ResponseMessage.success(user);
     }
+
 
     @GetMapping("/profile/{userID}") // 获取用户资料
     public ResponseMessage<ProfileDTO> getUserProfile(@PathVariable Integer userID) {
