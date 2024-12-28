@@ -137,4 +137,11 @@ public class CoachService implements ICoachService {
             throw new RuntimeException("找不到教练信息");
         }
     }
+
+    @Override
+    @Transactional
+    public List<CourseClass> getClassByCourseID(GetClassDTO getClassDTO) {
+        //从Teaches表获取coachID所有的classID
+        return classRepository.findByCoachAndCourse(getClassDTO.getCoachID(), getClassDTO.getCourseID());
+    }
 }
