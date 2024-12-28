@@ -29,6 +29,16 @@ public class UserDTO {
 
     private Float goalWeight;
 
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public Integer getUserID() {
         return userID;
     }

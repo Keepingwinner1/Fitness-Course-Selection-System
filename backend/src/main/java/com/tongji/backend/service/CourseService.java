@@ -1,10 +1,7 @@
 package com.tongji.backend.service;
 
 import com.tongji.backend.entity.*;
-import com.tongji.backend.entity.dto.BookDTO;
-import com.tongji.backend.entity.dto.ClassDTO;
-import com.tongji.backend.entity.dto.EvaluationDTO;
-import com.tongji.backend.entity.dto.PaymentDTO;
+import com.tongji.backend.entity.dto.*;
 import com.tongji.backend.repository.*;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -268,31 +265,30 @@ public class CourseService implements ICourseService {
 
     @Override
     @Transactional
-    public void cancelCourse(Integer classID) {
+    public void cancelCourse(CancelDTO cancelDTO) {
         // 1. 检查 classID 是否存在并获取课程信息
-        CourseClass courseClass = classRepository.findById(classID)
-                .orElseThrow(() -> new IllegalArgumentException("班级不存在，classID: " + classID));
+        CourseClass courseClass = classRepository.findById(cancelDTO.getClassID())
+                .orElseThrow(() -> new IllegalArgumentException("班级不存在，classID: " + cancelDTO.getClassID()));
         // 检查当前日期是否在课程开始时间之前，若不在，进入审核环节
-//        if (LocalDateTime.now().isAfter(courseClass.getCourseStartTime())) {
-//            // 课程开始时间已过，进入审核环节
-//            courseClass.setStatus(1); // 设置为审核中
-//            classRepository.save(courseClass); // 更新记录
-//            return;
-//        }
+        if (LocalDateTime.now().isAfter(courseClass.getCourseStartTime())) {
+            // 课程开始时间已过，进入审核环节
+            this.quitCourse(cancelDTO.getClassID(), cancelDTO.getUserID());
+            return;
+        }
 
         // 2. 更新 Book 表中与该课程相关的记录，将 bookStatus 设置为已取消 (2)
-        Book book = bookRepository.findByClassIdAndStatus(classID,1);
+        Book book = bookRepository.findByClassIdAndStatus(cancelDTO.getClassID(),1);
         book.setBookStatus(2); // 设置为已取消(已退款)
         bookRepository.save(book); // 更新记录
 
         // 3. 删除Advise表记录
         //根据userID与classID查询删除记录
-        Advise advise = adviseRepository.findByClassIdAndUserId(classID, book.getTraineeId());
+        Advise advise = adviseRepository.findByClassIdAndUserId(cancelDTO.getClassID(), book.getTraineeId());
         if (advise != null) {
             adviseRepository.delete(advise);
         } else {
             // 处理未找到记录的情况，可以记录日志或抛出异常
-            System.out.println("未找到需要删除的 Advise 记录，classID: " +classID+ "userID: " +book.getTraineeId());
+            System.out.println("未找到需要删除的 Advise 记录，classID: " +cancelDTO.getClassID()+ "userID: " +book.getTraineeId());
         }
 
         // 4. 更新 Payment 表中与该课程相关的支付记录，设置 paymentStatus 为已退款 (3)
@@ -304,17 +300,16 @@ public class CourseService implements ICourseService {
             paymentRepository.save(payment); // 更新记录
         };
         // 5. 删除 Participate 表中与该课程相关的记录
-        Participate participate = participateRepository.findByClassIdAndTraineeId(classID, book.getTraineeId());
+        Participate participate = participateRepository.findByClassIdAndTraineeId(cancelDTO.getClassID(), book.getTraineeId());
         if (participate == null) {
             //打印传入与返回信息
-            System.out.println("传入的classID:"+classID+"与传入的traineeID:"+book.getTraineeId());
+            System.out.println("传入的classID:"+cancelDTO.getClassID()+"与传入的traineeID:"+book.getTraineeId());
         }
         else
             participateRepository.delete(participate);
 
         //6. class表的capacity+1
-        classRepository.updateCapacity(classID,1);
-
+        classRepository.updateCapacity(cancelDTO.getClassID(),1);
     }
 
 

@@ -18,10 +18,10 @@ public class UserController {
     IUserService userService;
 
     @PostMapping("/login") // 登录
-    public ResponseMessage<User> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseMessage<UserDTO> login(@RequestBody LoginDTO loginDTO) {
         try {
-            User user = userService.login(loginDTO);
-            return ResponseMessage.success(user);
+            UserDTO userDTO = userService.login(loginDTO);
+            return ResponseMessage.success(userDTO);
         } catch (IllegalArgumentException e) {
             return ResponseMessage.error(e.getMessage());
         } catch (Exception e) {
