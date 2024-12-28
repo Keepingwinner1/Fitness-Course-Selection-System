@@ -19,10 +19,10 @@ public class CoachController {
     private CoachService coachService;
 
 
-    @PostMapping("/register")
-    public ResponseMessage<Coach> register(@RequestBody CoachDTO coach) {
-        return ResponseMessage.success(coachService.addCoach(coach));
-    }
+//    @PostMapping("/register")
+//    public ResponseMessage<Coach> register(@RequestBody CoachDTO coach) {
+//        return ResponseMessage.success(coachService.addCoach(coach));
+//    }
 
     @PostMapping("/login")
     public ResponseMessage<Coach> login(@RequestBody LoginDTO loginDTO) {

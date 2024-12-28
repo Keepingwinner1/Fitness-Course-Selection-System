@@ -19,10 +19,10 @@ public class AdminController {
     private CourseService courseService;
 
     //注册成为某健身房的管理员
-    @GetMapping("/register/{userID}/{gymID}")
-    public ResponseMessage<Admin> register(@PathVariable int userID, @PathVariable int gymID) {
-        return ResponseMessage.success(adminService.addAdmin(new Admin(userID,gymID)));
-    }
+    //    @GetMapping("/register/{userID}/{gymID}")
+    //    public ResponseMessage<Admin> register(@PathVariable int userID, @PathVariable int gymID) {
+    //        return ResponseMessage.success(adminService.addAdmin(new Admin(userID,gymID)));
+    //    }
 
 
     @GetMapping("/login")

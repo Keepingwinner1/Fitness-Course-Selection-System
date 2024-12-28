@@ -21,4 +21,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> findCanceledCourses();
 
     Book findByClassId(Integer classId);
+
+    @Query("SELECT b FROM Book b WHERE b.classId = ?1 AND b.bookStatus = ?2")
+    Book findByClassIdAndStatus(Integer classID, int i);
 }

@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AdviseRepository  extends JpaRepository<Advise, Integer> {
     Advise findByClassId(Integer classID);
+
+    Advise findByClassIdAndUserId(Integer classID, Integer traineeId);
 }

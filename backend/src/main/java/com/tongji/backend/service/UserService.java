@@ -1,18 +1,12 @@
 package com.tongji.backend.service;
 
-import com.tongji.backend.entity.Admin;
-import com.tongji.backend.entity.Coach;
-import com.tongji.backend.entity.Task;
-import com.tongji.backend.entity.User;
+import com.tongji.backend.entity.*;
 import com.tongji.backend.entity.dto.LoginDTO;
 import com.tongji.backend.entity.dto.ProfileDTO;
 import com.tongji.backend.entity.dto.RegisterDTO;
 import com.tongji.backend.entity.dto.ResponseMessage;
-import com.tongji.backend.repository.AdminRepository;
-import com.tongji.backend.repository.CoachRepository;
-import com.tongji.backend.repository.TaskRepository;
+import com.tongji.backend.repository.*;
 import com.tongji.backend.entity.dto.ResponseMessage;
-import com.tongji.backend.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +26,8 @@ public class UserService implements IUserService {
     CoachRepository coachRepository;
     @Autowired
     AdminRepository adminRepository;
+    @Autowired
+    GymRepository gymRepository;
 
     @Override
     public User login(LoginDTO loginDTO) {
@@ -62,6 +58,17 @@ public class UserService implements IUserService {
             //BeanUtils.copyProperties(registerDTO, coach);
             coachRepository.save(coach);
         } else if (registerDTO.getType().equals("admin")) {
+            //如果传入的gymID为空，代表需要先创建gym
+            if (registerDTO.getGymID() == null) {
+                // 创建gym
+                Gym gym = new Gym();
+                gym.setGymName(registerDTO.getGymName());
+                gym.setAddress(registerDTO.getAddress());
+                gym.setCreateTime(LocalDateTime.now());
+                Gym resGym = gymRepository.save(gym);
+                registerDTO.setGymID(resGym.getGymID());
+           }
+
             // 向管理员表插入记录
             Admin admin = new Admin();
             admin.setUserID(res.getUserID());

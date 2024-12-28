@@ -2,7 +2,7 @@ spring:
   application:
     name: backend
   datasource:
-    url: jdbc:mysql://106.14.253.101:3306/course_system
+    url: jdbc:mysql://106.14.253.101:3306/course_system?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
     username: root
     password: Tongji@123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -12,6 +12,10 @@ spring:
     show-sql: true       # 显示SQL语句
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true # 格式化SQL输出
+        hibernate.connection.characterEncoding: utf8
+        hibernate.connection.CharSet: utf8
+        hibernate.connection.useUnicode: true
 server:
   port: 8080

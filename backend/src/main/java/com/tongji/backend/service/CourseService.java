@@ -280,12 +280,19 @@ public class CourseService implements ICourseService {
 //        }
 
         // 2. 更新 Book 表中与该课程相关的记录，将 bookStatus 设置为已取消 (2)
-        Book book = bookRepository.findByClassId(classID);
+        Book book = bookRepository.findByClassIdAndStatus(classID,0);
         book.setBookStatus(2); // 设置为已取消
         bookRepository.save(book); // 更新记录
 
         // 3. 删除Advise表记录
-        adviseRepository.delete(adviseRepository.findByClassId(classID));
+        //根据userID与classID查询删除记录
+        Advise advise = adviseRepository.findByClassIdAndUserId(classID, book.getTraineeId());
+        if (advise != null) {
+            adviseRepository.delete(advise);
+        } else {
+            // 处理未找到记录的情况，可以记录日志或抛出异常
+            System.out.println("未找到需要删除的 Advise 记录，classID: " +classID+ "userID: " +book.getTraineeId());
+        }
 
         // 4. 更新 Payment 表中与该课程相关的支付记录，设置 paymentStatus 为已退款 (3)
         Integer paymentId = book.getPaymentId();
@@ -296,11 +303,16 @@ public class CourseService implements ICourseService {
             paymentRepository.save(payment); // 更新记录
         };
         // 5. 删除 Participate 表中与该课程相关的记录
-        Participate participate = participateRepository.findByClassId(classID);
-        participateRepository.delete(participate);
+        Participate participate = participateRepository.findByClassIdAndTraineeId(classID, book.getTraineeId());
+        if (participate == null) {
+            //打印传入与返回信息
+            System.out.println("传入的classID:"+classID+"与传入的traineeID:"+book.getTraineeId());
+        }
+        else
+            participateRepository.delete(participate);
 
         //6. class表的capacity+1
-        classRepository.updateCapacity(classID,-1);
+        classRepository.updateCapacity(classID,1);
 
     }
 
