@@ -4,6 +4,7 @@ package com.tongji.backend.controller;
 import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.User;
 import com.tongji.backend.entity.dto.*;
+import com.tongji.backend.security.JwtUtil;
 import com.tongji.backend.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,12 @@ import java.util.List;
 @RequestMapping("/user") //后续访问地址为 url/user/**
 public class UserController {
 
+
+
     @Autowired
     IUserService userService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/login") // 登录
     public ResponseMessage<UserDTO> login(@RequestBody LoginDTO loginDTO) {
@@ -52,6 +57,11 @@ public class UserController {
     public ResponseMessage<List<Task>> getTasks(@PathVariable Integer classID) {
         List<Task> tasks=userService.getTasks(classID);
         return ResponseMessage.success(tasks);
+    }
+
+    @GetMapping("updateToken")
+    public ResponseMessage<String> updateToken(@RequestBody String token) {
+        return ResponseMessage.success("更新成功",jwtUtil.updateToken(token));
     }
 
 
