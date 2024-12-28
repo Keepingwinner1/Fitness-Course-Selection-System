@@ -35,6 +35,8 @@ public class CoachService implements ICoachService {
     private TaskRepository taskRepository;
     @Autowired
     private TeachesRepository teachesRepository;
+    @Autowired
+    private CoursePublishRepository coursePublishRepository;
 
     @Override
     public Coach addCoach(CoachDTO coachDTO) {
@@ -80,7 +82,8 @@ public class CoachService implements ICoachService {
     public Course createCourse(NewCourseDTO newCourseDTO) {
         Course course = new Course();
         BeanUtils.copyProperties(newCourseDTO, course);
-        courseRepository.save(course);
+        var c =courseRepository.save(course);
+        coursePublishRepository.save(new Coursepublish(newCourseDTO.getCoachID(), c.getCourseId()));
         return course;
     }
 
