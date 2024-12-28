@@ -17,5 +17,22 @@ spring:
         hibernate.connection.characterEncoding: utf8
         hibernate.connection.CharSet: utf8
         hibernate.connection.useUnicode: true
+  web:
+    cors:
+      mappings:
+        # 匹配路径
+        "/**":
+          # 允许的来源
+          allowed-origins: "*"
+          # 允许的方法
+          allowed-methods: "*"
+          # 允许的头
+          allowed-headers: "*"
+          # 是否允许凭据（Cookie）
+          allow-credentials: true
+          # 预检请求的缓存时间（秒）
+          max-age: 3600
 server:
   port: 8080
+# JWT 配置
+

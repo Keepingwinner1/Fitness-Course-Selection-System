@@ -76,7 +76,8 @@ public class CoachService implements ICoachService {
     }
 
     @Override
-    public boolean createCourse(NewCourseDTO newCourseDTO) {
+    @Transactional
+    public Course createCourse(NewCourseDTO newCourseDTO) {
         Course course = new Course();
         BeanUtils.copyProperties(newCourseDTO, course);
         courseRepository.save(course);
@@ -143,5 +144,10 @@ public class CoachService implements ICoachService {
     public List<CourseClass> getClassByCourseID(GetClassDTO getClassDTO) {
         //从Teaches表获取coachID所有的classID
         return classRepository.findByCoachAndCourse(getClassDTO.getCoachID(), getClassDTO.getCourseID());
+    }
+
+    @Override
+    public List<Course> getAllCourse(Integer coachID){
+        return courseRepository.findByCoachID(coachID);
     }
 }

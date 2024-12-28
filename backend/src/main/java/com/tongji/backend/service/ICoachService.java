@@ -1,9 +1,11 @@
 package com.tongji.backend.service;
 
 import com.tongji.backend.entity.Coach;
+import com.tongji.backend.entity.Course;
 import com.tongji.backend.entity.CourseClass;
 import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.dto.*;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public interface ICoachService {
 
     boolean createClass(NewClassDTO newClassDTO);
 
-    boolean createCourse(NewCourseDTO newCourseDTO);
+    Course createCourse(NewCourseDTO newCourseDTO);
 
     boolean modifyClass(Integer classID, NewClassDTO classDTO);
 
@@ -32,4 +34,6 @@ public interface ICoachService {
     void modifyCoach(CoachDTO coachDTO);
 
     List<CourseClass> getClassByCourseID(GetClassDTO getClassDTO);
+
+    List<Course> getAllCourse(Integer coachID);
 }
