@@ -6,7 +6,9 @@ import com.tongji.backend.entity.Course;
 import com.tongji.backend.entity.CourseClass;
 import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.dto.*;
+import com.tongji.backend.security.JwtUtil;
 import com.tongji.backend.service.CoachService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ public class CoachController {
 
     @Autowired
     private CoachService coachService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
 
 //    @PostMapping("/register")
@@ -26,10 +30,13 @@ public class CoachController {
 //    }
 
     @GetMapping("/login")
-    public ResponseMessage<Coach> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseMessage<Coachs> login(@RequestBody LoginDTO loginDTO) {
         Coach coach =coachService.coachLogin(loginDTO);
         if(coach.getStatus()!=0) {
-            return ResponseMessage.success(coach);
+            Coachs coachs=new Coachs();
+            BeanUtils.copyProperties(coach,coachs);
+            coachs.setToken(jwtUtil.generateToken(coachs.getUserID()));
+            return ResponseMessage.success(coachs);
         }
         else{
             return ResponseMessage.error("教练申请还未通过");

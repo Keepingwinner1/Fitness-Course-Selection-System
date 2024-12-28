@@ -3,8 +3,10 @@ package com.tongji.backend.controller;
 
 import com.tongji.backend.entity.*;
 import com.tongji.backend.entity.dto.*;
+import com.tongji.backend.security.JwtUtil;
 import com.tongji.backend.service.AdminService;
 import com.tongji.backend.service.CourseService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,8 @@ public class AdminController {
     private AdminService adminService;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     //注册成为某健身房的管理员
     //    @GetMapping("/register/{userID}/{gymID}")
@@ -26,11 +30,14 @@ public class AdminController {
 
 
     @GetMapping("/login")
-    public ResponseMessage<Admin> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseMessage<AdminDTO> login(@RequestBody LoginDTO loginDTO) {
         try{
             Admin admin=adminService.login(loginDTO);
             if(admin!=null){
-                return ResponseMessage.success(admin);
+                AdminDTO adminDTO=new AdminDTO();
+                BeanUtils.copyProperties(admin,adminDTO);
+                adminDTO.setToken(jwtUtil.generateToken(adminDTO.getUserID()));
+                return ResponseMessage.success(adminDTO);
             }
             else{
                 return ResponseMessage.error("管理员不存在");
