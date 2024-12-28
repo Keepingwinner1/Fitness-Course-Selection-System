@@ -267,6 +267,7 @@ public class CourseService implements ICourseService {
     }
 
     @Override
+    @Transactional
     public void cancelCourse(Integer classID) {
         // 1. 检查 classID 是否存在并获取课程信息
         CourseClass courseClass = classRepository.findById(classID)
@@ -280,8 +281,8 @@ public class CourseService implements ICourseService {
 //        }
 
         // 2. 更新 Book 表中与该课程相关的记录，将 bookStatus 设置为已取消 (2)
-        Book book = bookRepository.findByClassIdAndStatus(classID,0);
-        book.setBookStatus(2); // 设置为已取消
+        Book book = bookRepository.findByClassIdAndStatus(classID,1);
+        book.setBookStatus(2); // 设置为已取消(已退款)
         bookRepository.save(book); // 更新记录
 
         // 3. 删除Advise表记录

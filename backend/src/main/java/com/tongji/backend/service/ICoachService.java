@@ -33,5 +33,7 @@ public interface ICoachService {
 
     void modifyCoach(CoachDTO coachDTO);
 
+    List<CourseClass> getClassByCourseID(GetClassDTO getClassDTO);
+
     List<Course> getAllCourse(Integer coachID);
 }

@@ -48,5 +48,13 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
     @Modifying //必须添加这个注解，否则默认为select
     @Query("UPDATE CourseClass c SET c.capacity = c.capacity + :num WHERE c.classId = :classId")
     void updateCapacity(Integer classId, Integer num);
+
+    // 根据 coachID 和 courseID 获取匹配的 Class 对象
+    @Query("SELECT c FROM CourseClass c " +
+            "JOIN Teaches t ON c.classId = t.classID " +
+            "WHERE t.coachID = :coachID AND c.courseId = :courseID")
+    List<CourseClass> findByCoachAndCourse(@Param("coachID") Integer coachID, @Param("courseID") Integer courseID);
+
+
 }
 

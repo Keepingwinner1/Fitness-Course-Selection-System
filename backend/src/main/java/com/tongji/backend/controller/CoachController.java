@@ -6,11 +6,11 @@ import com.tongji.backend.entity.Course;
 import com.tongji.backend.entity.CourseClass;
 import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.dto.*;
-import com.tongji.backend.security.JwtUtil;
 import com.tongji.backend.service.CoachService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import  com.tongji.backend.security.JwtUtil;
 
 import java.util.List;
 
@@ -22,7 +22,6 @@ public class CoachController {
     private CoachService coachService;
     @Autowired
     private JwtUtil jwtUtil;
-
 
 //    @PostMapping("/register")
 //    public ResponseMessage<Coach> register(@RequestBody CoachDTO coach) {
@@ -73,10 +72,10 @@ public class CoachController {
     }
 
     @PostMapping("/createCourse")
-    public ResponseMessage<Course> createCourse(@RequestBody NewCourseDTO courseDTO) {
+    public ResponseMessage<String> createCourse(@RequestBody NewCourseDTO courseDTO) {
         try {
-            var c =coachService.createCourse(courseDTO);
-            return ResponseMessage.success("新课程创建成功",c);
+            coachService.createCourse(courseDTO);
+            return ResponseMessage.success("新课程创建成功");
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
@@ -132,6 +131,16 @@ public class CoachController {
         try{
             coachService.modifyCoach(coachDTO);
             return ResponseMessage.success("信息修改成功");
+        } catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/getClassByCourseID")
+    public ResponseMessage<List<CourseClass>> getClassByCourseID(@RequestBody GetClassDTO getClassDTO){
+        try{
+            coachService.getClassByCourseID(getClassDTO);
+            return ResponseMessage.success("课程班级获取成功");
         } catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
         }
