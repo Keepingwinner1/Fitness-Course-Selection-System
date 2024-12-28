@@ -3,6 +3,7 @@ package com.tongji.backend.repository;
 import com.tongji.backend.entity.Advise;
 import com.tongji.backend.entity.Course;
 import com.tongji.backend.entity.CourseClass;
+import com.tongji.backend.entity.dto.ClassDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -55,6 +56,17 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
             "WHERE t.coachID = :coachID AND c.courseId = :courseID")
     List<CourseClass> findByCoachAndCourse(@Param("coachID") Integer coachID, @Param("courseID") Integer courseID);
 
+
+    // 获取用户预订的课程以及对应的 bookId 和 course 的所有属性
+    @Query("SELECT new com.tongji.backend.entity.dto.ClassDTO(" +
+            "c.classId, co.courseType, co.courseName, co.courseDescription, " +
+            "co.courseGrade, co.coursePhotoUrl, c.capacity, c.coursePrice, " +
+            "c.courseStartTime, c.courseEndTime, c.dayOfWeek, b.bookId) " +
+            "FROM CourseClass c " +
+            "JOIN Book b ON c.classId = b.classId " +
+            "JOIN Course co ON c.courseId = co.courseId " +
+            "WHERE b.traineeId = :userID AND b.bookStatus = 0")
+    List<ClassDTO> findBookedCoursesByUser(@Param("userID") Integer userID);
 
 }
 

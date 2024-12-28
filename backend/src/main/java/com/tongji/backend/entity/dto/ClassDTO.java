@@ -28,6 +28,39 @@ public class ClassDTO {
 
     private String dayOfWeek;
 
+    private Integer bookId;
+
+
+    // 无参构造函数
+    public ClassDTO() {
+    }
+
+    // 有参构造函数
+    public ClassDTO(Integer classId, String courseType, String courseName, String courseDescription,
+                    Integer courseGrade, String coursePhotoUrl, Integer capacity, Integer coursePrice,
+                    LocalDateTime courseStartTime, LocalDateTime courseEndTime, String dayOfWeek, Integer bookId) {
+        this.classId = classId;
+        this.courseType = courseType;
+        this.courseName = courseName;
+        this.courseDescription = courseDescription;
+        this.courseGrade = courseGrade;
+        this.coursePhotoUrl = coursePhotoUrl;
+        this.capacity = capacity;
+        this.coursePrice = coursePrice;
+        this.courseStartTime = courseStartTime;
+        this.courseEndTime = courseEndTime;
+        this.dayOfWeek = dayOfWeek;
+        this.bookId = bookId;
+    }
+
+    public Integer getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
+    }
+
     public Integer getClassId() {
         return classId;
     }

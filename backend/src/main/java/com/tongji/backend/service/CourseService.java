@@ -135,18 +135,10 @@ public class CourseService implements ICourseService {
                 .collect(Collectors.toList());
     }
 
-    //返回值类型需要修改
     @Override
     public List<ClassDTO> getAllBookedCoursesByUser(Integer userID) {
-        List<CourseClass> classes = classRepository.findBookedByUser(userID);
-
-        return classes.stream()
-                .map(classEntity -> {
-                    Course courseEntity = courseRepository.findById(classEntity.getCourseId())
-                            .orElseThrow(() -> new IllegalArgumentException("课程信息不完整"));
-                    return mapToClassDTO(classEntity, courseEntity);
-                })
-                .collect(Collectors.toList());
+        //从Book表获取user所有的bookID
+        return classRepository.findBookedCoursesByUser(userID);
     }
 
     @Override
