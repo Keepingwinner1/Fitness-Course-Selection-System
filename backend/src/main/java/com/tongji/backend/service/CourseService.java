@@ -37,6 +37,8 @@ public class CourseService implements ICourseService {
     private GymRepository gymRepository;
     @Autowired
     private RefundRepository refundRepository;
+   @Autowired
+   private AdviseRepository adviseRepository;
 
     @Override
     public List<ClassDTO> getAllCourses() {
@@ -243,6 +245,12 @@ public class CourseService implements ICourseService {
             participateRepository.save(participate); // 保存到数据库
 
             //4. 插入Advise表
+            Advise advise = new Advise();
+            advise.setClassId(book.getClassId());
+            advise.setUserId(book.getTraineeId());
+            //根据classid查询课程的教练id
+            advise.setCoachId(classRepository.findByClassId(book.getClassId()).getCoachId());
+            adviseRepository.save(advise);
 
         });
         return savedPayment;
@@ -268,20 +276,19 @@ public class CourseService implements ICourseService {
         book.setBookStatus(2); // 设置为已取消
         bookRepository.save(book); // 更新记录
 
-        // 删除Advise表记录
+        // 3. 删除Advise表记录
+        adviseRepository.delete(adviseRepository.findByClassId(classID));
 
-        //更新payment表记录
+        // 4. 更新 Payment 表中与该课程相关的支付记录，设置 paymentStatus 为已退款 (3)
+        Integer paymentId = book.getPaymentId();
+        if (paymentId != null) {
+            Payment payment = paymentRepository.findById(paymentId)
+                        .orElseThrow(() -> new IllegalArgumentException("支付记录不存在，paymentId: " + paymentId));
+            payment.setPaymentStatus(3); // 设置为已退款
+            paymentRepository.save(payment); // 更新记录
+        };
 
-//        // 3. 更新 Payment 表中与该课程相关的支付记录，设置 paymentStatus 为已退款 (3)
-//        Integer paymentId = book.getPaymentId();
-//        if (paymentId != null) {
-//            Payment payment = paymentRepository.findById(paymentId)
-//                        .orElseThrow(() -> new IllegalArgumentException("支付记录不存在，paymentId: " + paymentId));
-//            payment.setPaymentStatus(3); // 设置为已退款
-//            paymentRepository.save(payment); // 更新记录
-//        };
-
-        // 4. 删除 Participate 表中与该课程相关的记录
+        // 5. 删除 Participate 表中与该课程相关的记录
         Participate participate = participateRepository.findByClassId(classID);
         participateRepository.delete(participate);
     }

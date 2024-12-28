@@ -1,5 +1,6 @@
 package com.tongji.backend.repository;
 
+import com.tongji.backend.entity.Advise;
 import com.tongji.backend.entity.Course;
 import com.tongji.backend.entity.CourseClass;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,5 +40,6 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
             "WHERE c.gymID = :gymID AND cc.status = 0")
     List<CourseClass> findByGymID(@Param("gymID") Integer gymID);
 
+    Advise findByClassId(Integer classId);
 }
 
