@@ -64,12 +64,13 @@ public class CoachService implements ICoachService {
     }
 
     @Override
+    @Transactional
     public boolean createClass(NewClassDTO newClassDTO) {
         CourseClass courseClass = new CourseClass();
         BeanUtils.copyProperties(newClassDTO, courseClass);
         courseClass.setStatus(0);
         var c=classRepository.save(courseClass);
-        teachesRepository.save(new Teaches(c.getClassId(), newClassDTO.getCoachID()));
+        teachesRepository.save(new Teaches(newClassDTO.getCoachID(),c.getClassId()));
         return true;
     }
 
@@ -81,15 +82,16 @@ public class CoachService implements ICoachService {
         return true;
     }
 
-    @Override
     @Transactional
-    public boolean modifyClass(ClassDTO classDTO){
+    @Override
+    public boolean modifyClass(Integer classID, NewClassDTO classDTO){
         CourseClass courseClass = new CourseClass();
         BeanUtils.copyProperties(classDTO, courseClass);
+        courseClass.setClassId(classID);
         if(!teachesRepository.existsTeachesByClassID(courseClass.getClassId())){
             throw new RuntimeException("要修改的班级不存在");
         }
-        Optional<CourseClass> a= classRepository.findById(classDTO.getClassId());
+        Optional<CourseClass> a= classRepository.findById(classID);
         if(a.isPresent()){
             courseClass.setCoursePrice(a.get().getCoursePrice());
             courseClass.setStatus(a.get().getStatus());

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TeachesRepository extends JpaRepository<Teaches, Integer> {
 
-    @Query("select exists(t) from Teaches t where  t.classID=?1")
+    @Query("select exists(select t from Teaches t where  t.classID=?1)")
     boolean existsTeachesByClassID(Integer classID);
 
     void deleteByClassID(Integer processId);
