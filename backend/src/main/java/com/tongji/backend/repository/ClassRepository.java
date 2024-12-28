@@ -4,6 +4,7 @@ import com.tongji.backend.entity.Advise;
 import com.tongji.backend.entity.Course;
 import com.tongji.backend.entity.CourseClass;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -41,9 +42,10 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
     List<CourseClass> findByGymID(@Param("gymID") Integer gymID);
 
     @Query("SELECT c FROM CourseClass c JOIN Book b ON c.classId = b.classId WHERE b.classId = :classId AND b.bookStatus = 0")
-    Advise findByClassId(Integer classId);
+    List<CourseClass> findByClassId(Integer classId);
 
     //根据传入的变化量更新capacity
+    @Modifying //必须添加这个注解，否则默认为select
     @Query("UPDATE CourseClass c SET c.capacity = c.capacity + :num WHERE c.classId = :classId")
     void updateCapacity(Integer classId, Integer num);
 }

@@ -96,7 +96,7 @@ public class CourseController {
     }
 
     // 用户取消课程(退款)
-    @DeleteMapping("/course/{classID}")
+    @DeleteMapping("/cancel/{classID}")
     public ResponseMessage<Void> cancelCourse(@PathVariable Integer classID) {
         courseService.cancelCourse(classID);
         return ResponseMessage.success(null);

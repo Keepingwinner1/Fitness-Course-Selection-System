@@ -6,6 +6,7 @@ import com.tongji.backend.entity.dto.ClassDTO;
 import com.tongji.backend.entity.dto.EvaluationDTO;
 import com.tongji.backend.entity.dto.PaymentDTO;
 import com.tongji.backend.repository.*;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,9 @@ public class CourseService implements ICourseService {
     private RefundRepository refundRepository;
    @Autowired
    private AdviseRepository adviseRepository;
+    @Autowired
+    private TeachesRepository teachesRepository;
+
 
     @Override
     public List<ClassDTO> getAllCourses() {
@@ -199,6 +203,7 @@ public class CourseService implements ICourseService {
     }
 
     @Override
+    @Transactional
     public Payment payForCourse(PaymentDTO paymentDTO) {
         LocalDateTime now = LocalDateTime.now();
 
@@ -240,13 +245,16 @@ public class CourseService implements ICourseService {
 
             //4. 插入Advise表
             Advise advise = new Advise();
-            advise.setClassId(book.getClassId());
             advise.setUserId(book.getTraineeId());
+            advise.setClassId(book.getClassId());
             //根据classid查询课程的教练id
-            advise.setCoachId(classRepository.findByClassId(book.getClassId()).getCoachId());
+            int coachID = teachesRepository.findByClassId(book.getClassId()).getFirst().getCoachID();
+            //打印coachID
+            System.out.println("coachID:"+coachID);
+            advise.setCoachId(coachID);
             adviseRepository.save(advise);
             //5.Class表的capacity-1
-            classRepository.updateCapacity(book.getClassId(),1);
+            classRepository.updateCapacity(book.getClassId(),-1);
         });
         return savedPayment;
     }
