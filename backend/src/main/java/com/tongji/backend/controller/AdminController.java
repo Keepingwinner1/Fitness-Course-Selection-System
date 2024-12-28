@@ -29,7 +29,7 @@ public class AdminController {
     //    }
 
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseMessage<AdminDTO> login(@RequestBody LoginDTO loginDTO) {
         try{
             Admin admin=adminService.login(loginDTO);

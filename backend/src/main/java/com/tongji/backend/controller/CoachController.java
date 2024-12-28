@@ -28,7 +28,7 @@ public class CoachController {
 //        return ResponseMessage.success(coachService.addCoach(coach));
 //    }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseMessage<Coachs> login(@RequestBody LoginDTO loginDTO) {
         try {
             Coach coach = coachService.coachLogin(loginDTO);
