@@ -19,7 +19,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        http    .cors().disable()
                 .csrf().disable()  // 禁用 CSRF 防护，适用于非浏览器客户端的应用
                 .authorizeRequests()
                 .requestMatchers("/user/login", "/user/register","/admin/login","/coach/login").permitAll()  // 允许登录和注册请求不需要认证
