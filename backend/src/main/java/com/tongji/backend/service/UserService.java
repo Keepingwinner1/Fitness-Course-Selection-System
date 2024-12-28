@@ -34,6 +34,10 @@ public class UserService implements IUserService {
         Optional<User> userOptional = userRepository.findByUserName(loginDTO.getUserName());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+            //检查传入type与数据库中的type是否一致
+            if (!user.getType().equals(loginDTO.getType())) {
+                throw new IllegalArgumentException("用户类型错误");
+            }
             //将user的属性赋值到UserDTO
             UserDTO userDTO = new UserDTO();
             BeanUtils.copyProperties(user, userDTO);
@@ -51,6 +55,10 @@ public class UserService implements IUserService {
     @Override
     public User register(RegisterDTO registerDTO) {
         User user = new User();
+        //检查user表中是否已存在该用户名，若有抛出异常
+        if (userRepository.findByUserName(registerDTO.getUserName()).isPresent()) {
+            throw new IllegalArgumentException("用户名已存在");
+        }
         BeanUtils.copyProperties(registerDTO, user);
         user.setRegistrationTime(LocalDateTime.now());
         User res =userRepository.save(user);
