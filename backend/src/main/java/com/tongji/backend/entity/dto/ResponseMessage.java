@@ -20,9 +20,13 @@ public class ResponseMessage<T> {
         return new ResponseMessage<>(HttpStatus.OK.value(),"success",  data);
     }
 
-//    public static <T> ResponseMessage<T> success(String message, T data) {
-//        return new ResponseMessage<>(HttpStatus.OK.value(),message,  data);
-//    }
+    public static <T> ResponseMessage<T> success(String msg) {
+        return new ResponseMessage<>(HttpStatus.OK.value(),  msg,null);
+    }
+
+    public static <T> ResponseMessage<T> success(String message, T data) {
+        return new ResponseMessage<>(HttpStatus.OK.value(),message,  data);
+    }
 
     //接口请求失败
     public static <T> ResponseMessage<T> error(String message) {

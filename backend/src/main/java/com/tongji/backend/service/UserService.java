@@ -1,9 +1,12 @@
 package com.tongji.backend.service;
 
+import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.User;
 import com.tongji.backend.entity.dto.LoginDTO;
 import com.tongji.backend.entity.dto.ProfileDTO;
 import com.tongji.backend.entity.dto.RegisterDTO;
+import com.tongji.backend.entity.dto.ResponseMessage;
+import com.tongji.backend.repository.TaskRepository;
 import com.tongji.backend.entity.dto.ResponseMessage;
 import com.tongji.backend.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,19 +22,22 @@ public class UserService implements IUserService {
 
     @Autowired
     UserRepository userRepository; // 自动注入数据库的操作对象
+    @Autowired
+    TaskRepository taskRepository;
+
 
     @Override
-    public ResponseMessage<User> login(LoginDTO loginDTO) {
+    public User login(LoginDTO loginDTO) {
         Optional<User> userOptional = userRepository.findByUserName(loginDTO.getUserName());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (user.getPassword().equals(loginDTO.getPassword())) { // 实际中密码应经过哈希验证
-                return  ResponseMessage.success(user);
+                return  user;
             } else {
-                return  ResponseMessage.error("密码错误");
+                throw new IllegalArgumentException("密码错误");
             }
         } else {
-            return  ResponseMessage.error("用户不存在");
+            throw new IllegalArgumentException("用户不存在");
         }
     }
 
@@ -92,6 +99,11 @@ public class UserService implements IUserService {
         ProfileDTO updatedProfileDTO = new ProfileDTO();
         BeanUtils.copyProperties(user, updatedProfileDTO);
         return updatedProfileDTO;
+    }
+
+    @Override
+    public List<Task> getTasks(Integer classID){
+        return  taskRepository.findByClassID(classID);
     }
 
 
