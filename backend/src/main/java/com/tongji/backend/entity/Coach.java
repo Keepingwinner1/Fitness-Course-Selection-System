@@ -40,11 +40,9 @@ public class Coach {
 
     @NonNull
     @Column(name = "card_id", length = 20)
-    @Column(name = "card_id", length = 20)
     private String cardID;
 
     @NonNull
-    @Column(name = "gym_id")
     @Column(name = "gym_id", nullable = false)
     private Integer gymID;
 

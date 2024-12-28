@@ -179,7 +179,7 @@ public class CourseService implements ICourseService {
 
     @Override
     public List<ClassDTO> getAllcreateCLass(Integer gymID){
-        List<CourseClass> classes=classRepository.gymClass(gymID);
+        List<CourseClass> classes=classRepository.findByGymID(gymID);
 
         return classes.stream()
                 .map(classEntity -> {
