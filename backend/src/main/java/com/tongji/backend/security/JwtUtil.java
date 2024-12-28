@@ -46,4 +46,8 @@ public class JwtUtil {
     private boolean isTokenExpired(String token) {
         return extractClaims(token).getExpiration().before(new Date());
     }
+
+    private String updateToken(String token) {
+        return generateToken(extractUserID(token));
+    }
 }
