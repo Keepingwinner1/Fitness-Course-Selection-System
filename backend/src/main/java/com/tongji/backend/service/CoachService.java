@@ -64,6 +64,7 @@ public class CoachService implements ICoachService {
     }
 
     @Override
+    @Transactional
     public boolean createClass(NewClassDTO newClassDTO) {
         CourseClass courseClass = new CourseClass();
         BeanUtils.copyProperties(newClassDTO, courseClass);
