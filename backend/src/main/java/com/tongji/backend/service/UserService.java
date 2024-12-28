@@ -58,8 +58,8 @@ public class UserService implements IUserService {
         if (registerDTO.getType().equals("coach")) {
             // 向教练表插入记录
             Coach coach = new Coach();
-            coach.setCoachID(res.getUserID());
-            BeanUtils.copyProperties(registerDTO, coach);
+            coach.setUserID(res.getUserID());
+            //BeanUtils.copyProperties(registerDTO, coach);
             coachRepository.save(coach);
         } else if (registerDTO.getType().equals("admin")) {
             // 向管理员表插入记录
