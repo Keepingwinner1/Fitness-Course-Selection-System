@@ -39,11 +39,11 @@ public class Coach {
     private String address;
 
     @NonNull
-    @Column(name = "cardID", length = 20)
+    @Column(name = "card_id", length = 20)
     private String cardID;
 
     @NonNull
-    @Column(name = "gymID")
+    @Column(name = "gym_id")
     private Integer gymID;
 
     @NonNull
