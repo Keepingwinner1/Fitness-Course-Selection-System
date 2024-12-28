@@ -67,10 +67,10 @@ public class CoachController {
         }
     }
 
-    @PostMapping("/modifyClass")
-    public ResponseMessage<String> modifyClass(@RequestBody ClassDTO classDTO) {
+    @PostMapping("/modifyClass/{classID}")
+    public ResponseMessage<String> modifyClass(@PathVariable Integer classID,@RequestBody NewClassDTO classDTO) {
         try {
-            coachService.modifyClass(classDTO);
+            coachService.modifyClass(classID,classDTO);
             return ResponseMessage.success("课程信息修改成功");
         }
         catch (Exception e) {
