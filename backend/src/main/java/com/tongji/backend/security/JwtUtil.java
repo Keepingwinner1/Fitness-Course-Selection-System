@@ -10,7 +10,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private String secretKey = "sport_course_system";  // 请替换为实际的密钥
+    private String secretKey = "TongJi123456SportCourseSystemHanKunFuLiZengHuiLiZiNingChengHongLeiJAVAHomework";  // 请替换为实际的密钥
 
     // 生成 Token
     public String generateToken(Integer userID) {
