@@ -43,10 +43,10 @@ public class CourseService implements ICourseService {
     @Override
     public List<ClassDTO> getAllCourses() {
         LocalDateTime now = LocalDateTime.now();
-        // 从 Class 表获取容量未满且开始时间小于当前时间的课程
+        // 从 Class 表获取容量未满且结束时间小于当前时间的课程
         List<CourseClass> availableClasses = classRepository.findAll().stream()
                 .filter(classEntity -> classEntity.getCapacity() > 0
-                        && classEntity.getCourseStartTime().isAfter(now))
+                        && classEntity.getCourseEndTime().isAfter(now))
                 .toList();
 
         // 根据 Class 表的课程 ID 获取对应的 Course 信息，并拼接为 ClassDTO
@@ -64,23 +64,17 @@ public class CourseService implements ICourseService {
     public List<ClassDTO> getCoursesByType(String type) {
         LocalDateTime now = LocalDateTime.now();
 
-        // 从 Class 表获取容量未满且开始时间小于当前时间的课程
-        List<CourseClass> availableClasses = classRepository.findAll().stream()
-                .filter(classEntity -> classEntity.getCapacity() > 0
-                        && classEntity.getCourseStartTime().isAfter(now))
-                .toList();
+        // 获取所有课程
+        List<ClassDTO> availableClasses = this.getAllCourses();
 
         // 根据 Class 表的课程 ID 获取对应的 Course 信息，筛选 type，并拼接为 ClassDTO
         return availableClasses.stream()
                 .map(classEntity -> {
-                    Course course = courseRepository.findById(classEntity.getCourseId())
-                            .orElseThrow(() -> new IllegalArgumentException("课程未找到，ID：" + classEntity.getCourseId()));
-
                     // 筛选课程类型是否匹配
-                    if (!course.getCourseType().equalsIgnoreCase(type)) {
+                    if (!classEntity.getCourseType().equalsIgnoreCase(type)) {
                         return null; // 不符合条件，返回空
                     }
-                    return mapToClassDTO(classEntity, course);
+                    return classEntity;
                 })
                 .filter(Objects::nonNull) // 过滤掉返回空的记录
                 .collect(Collectors.toList());
@@ -251,7 +245,8 @@ public class CourseService implements ICourseService {
             //根据classid查询课程的教练id
             advise.setCoachId(classRepository.findByClassId(book.getClassId()).getCoachId());
             adviseRepository.save(advise);
-
+            //5.Class表的capacity-1
+            classRepository.updateCapacity(book.getClassId(),1);
         });
         return savedPayment;
     }
@@ -268,11 +263,16 @@ public class CourseService implements ICourseService {
         // 1. 检查 classID 是否存在并获取课程信息
         CourseClass courseClass = classRepository.findById(classID)
                 .orElseThrow(() -> new IllegalArgumentException("班级不存在，classID: " + classID));
-
+        // 检查当前日期是否在课程开始时间之前，若不在，进入审核环节
+//        if (LocalDateTime.now().isAfter(courseClass.getCourseStartTime())) {
+//            // 课程开始时间已过，进入审核环节
+//            courseClass.setStatus(1); // 设置为审核中
+//            classRepository.save(courseClass); // 更新记录
+//            return;
+//        }
 
         // 2. 更新 Book 表中与该课程相关的记录，将 bookStatus 设置为已取消 (2)
         Book book = bookRepository.findByClassId(classID);
-
         book.setBookStatus(2); // 设置为已取消
         bookRepository.save(book); // 更新记录
 
@@ -287,10 +287,13 @@ public class CourseService implements ICourseService {
             payment.setPaymentStatus(3); // 设置为已退款
             paymentRepository.save(payment); // 更新记录
         };
-
         // 5. 删除 Participate 表中与该课程相关的记录
         Participate participate = participateRepository.findByClassId(classID);
         participateRepository.delete(participate);
+
+        //6. class表的capacity+1
+        classRepository.updateCapacity(classID,-1);
+
     }
 
 
