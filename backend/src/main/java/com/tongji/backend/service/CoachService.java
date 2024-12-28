@@ -35,6 +35,8 @@ public class CoachService implements ICoachService {
     private TaskRepository taskRepository;
     @Autowired
     private TeachesRepository teachesRepository;
+    @Autowired
+    private CoursePublishRepository coursePublishRepository;
 
     @Override
     public Coach addCoach(CoachDTO coachDTO) {
@@ -76,11 +78,14 @@ public class CoachService implements ICoachService {
     }
 
     @Override
-    public boolean createCourse(NewCourseDTO newCourseDTO) {
+    @Transactional
+    public Course createCourse(NewCourseDTO newCourseDTO) {
         Course course = new Course();
         BeanUtils.copyProperties(newCourseDTO, course);
-        courseRepository.save(course);
-        return true;
+        course.setCourseGrade(0);
+        var c=courseRepository.save(course);
+        coursePublishRepository.save(new Coursepublish(newCourseDTO.getCoachID(),c.getCourseId()));
+        return c;
     }
 
     @Transactional
@@ -136,5 +141,10 @@ public class CoachService implements ICoachService {
         else{
             throw new RuntimeException("找不到教练信息");
         }
+    }
+
+    @Override
+    public List<Course> getAllCourse(Integer coachID){
+         return courseRepository.findByCoachID(coachID);
     }
 }

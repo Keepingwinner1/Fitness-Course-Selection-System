@@ -2,6 +2,7 @@ package com.tongji.backend.controller;
 
 
 import com.tongji.backend.entity.Coach;
+import com.tongji.backend.entity.Course;
 import com.tongji.backend.entity.CourseClass;
 import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.dto.*;
@@ -77,10 +78,10 @@ public class CoachController {
     }
 
     @PostMapping("/createCourse")
-    public ResponseMessage<String> createCourse(@RequestBody NewCourseDTO courseDTO) {
+    public ResponseMessage<Course> createCourse(@RequestBody NewCourseDTO courseDTO) {
         try {
-            coachService.createCourse(courseDTO);
-            return ResponseMessage.success("新课程创建成功");
+            var c =coachService.createCourse(courseDTO);
+            return ResponseMessage.success("新课程创建成功",c);
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
@@ -137,6 +138,16 @@ public class CoachController {
             coachService.modifyCoach(coachDTO);
             return ResponseMessage.success("信息修改成功");
         } catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
+    }
+
+    @GetMapping("/getAllCourse/{coachID}")
+    public ResponseMessage<List<Course>> getAllCourse(@PathVariable  Integer coachID) {
+        try{
+            return ResponseMessage.success(coachService.getAllCourse(coachID));
+        }
+        catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
         }
     }

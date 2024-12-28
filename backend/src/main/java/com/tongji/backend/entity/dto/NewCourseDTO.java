@@ -12,4 +12,6 @@ public class NewCourseDTO {
     private String courseDescription;
 
     private String coursePhotoUrl;
+
+    private Integer coachID;
 }

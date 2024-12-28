@@ -21,7 +21,7 @@ public interface ICoachService {
 
     boolean createClass(NewClassDTO newClassDTO);
 
-    boolean createCourse(NewCourseDTO newCourseDTO);
+    Course createCourse(NewCourseDTO newCourseDTO);
 
     boolean modifyClass(Integer classID, NewClassDTO classDTO);
 
@@ -32,4 +32,6 @@ public interface ICoachService {
     boolean deleteTask(Integer taskID);
 
     void modifyCoach(CoachDTO coachDTO);
+
+    List<Course> getAllCourse(Integer coachID);
 }

@@ -62,7 +62,7 @@ public class AdminService implements IAdminService {
      @Override
      @Transactional
      public boolean proRefund(ProcessDTO processDTO){
-          Optional<Refund> refund=refundRepository.findById(processDTO.getProcessId());
+          Optional<Refund> refund=refundRepository.findByPaymentID(processDTO.getProcessId());
           if(refund.isPresent()){
                refund.get().setStatus(processDTO.isHandle()?1:2);
                refundRepository.save(refund.get());

@@ -23,4 +23,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     @Query("SELECT c FROM Course c JOIN Book b ON c.courseId = b.classId WHERE b.traineeId = ?1 AND b.bookStatus = 2")
     List<Course> findCanceledCoursesByUser(Integer userID);
 
+    @Query("select c from Course c join Coursepublish cc on c.courseId=cc.course where cc.coach=?1")
+    List<Course> findByCoachID(Integer coachID);
 }
