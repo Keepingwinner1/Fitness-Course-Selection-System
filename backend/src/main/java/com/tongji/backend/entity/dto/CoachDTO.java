@@ -2,6 +2,8 @@ package com.tongji.backend.entity.dto;
 
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
 public class CoachDTO {
@@ -10,7 +12,7 @@ public class CoachDTO {
 
     private String realName;
 
-    private String IDNumber;
+    private String number;
 
     private String phone;
 
@@ -18,5 +20,5 @@ public class CoachDTO {
 
     private String cardID;
 
-    private String gymID;
+    private Integer gymID;
 }
