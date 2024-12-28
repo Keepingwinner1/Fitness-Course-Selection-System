@@ -4,6 +4,7 @@ import com.tongji.backend.entity.User;
 import com.tongji.backend.entity.dto.LoginDTO;
 import com.tongji.backend.entity.dto.ProfileDTO;
 import com.tongji.backend.entity.dto.RegisterDTO;
+import com.tongji.backend.entity.dto.ResponseMessage;
 import com.tongji.backend.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,17 @@ public class UserService implements IUserService {
     UserRepository userRepository; // 自动注入数据库的操作对象
 
     @Override
-    public User login(LoginDTO loginDTO) {
+    public ResponseMessage<User> login(LoginDTO loginDTO) {
         Optional<User> userOptional = userRepository.findByUserName(loginDTO.getUserName());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (user.getPassword().equals(loginDTO.getPassword())) { // 实际中密码应经过哈希验证
-                return user;
+                return  ResponseMessage.success(user);
             } else {
-                throw new IllegalArgumentException("密码错误");
+                return  ResponseMessage.error("密码错误");
             }
         } else {
-            throw new IllegalArgumentException("用户不存在");
+            return  ResponseMessage.error("用户不存在");
         }
     }
 

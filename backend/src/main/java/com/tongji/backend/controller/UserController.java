@@ -16,8 +16,7 @@ public class UserController {
 
     @PostMapping("/login") // 登录
     public ResponseMessage<User> login(@RequestBody LoginDTO loginDTO) {
-        User user = userService.login(loginDTO);
-        return ResponseMessage.success(user);
+        return userService.login(loginDTO);
     }
 
     @PostMapping("/register") // 注册
@@ -25,6 +24,9 @@ public class UserController {
         User user = userService.register(registerDTO);
         return ResponseMessage.success(user);
     }
+
+    //教练身份的信息需要插入教练表；管理员呢？
+
 
     @GetMapping("/profile/{userID}") // 获取用户资料
     public ResponseMessage<ProfileDTO> getUserProfile(@PathVariable Integer userID) {

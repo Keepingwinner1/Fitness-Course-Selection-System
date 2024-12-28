@@ -6,7 +6,6 @@ public class RegisterDTO {
     private String userName;
     private String password;
     private String type; //user coach admin
-    private LocalDateTime registrationTime;
 
     public String getUserName() {
         return userName;
@@ -32,11 +31,4 @@ public class RegisterDTO {
         this.type = type;
     }
 
-    public LocalDateTime getRegistrationTime() {
-        return registrationTime;
-    }
-
-    public void setRegistrationTime(LocalDateTime registrationTime) {
-        this.registrationTime = registrationTime;
-    }
 }
