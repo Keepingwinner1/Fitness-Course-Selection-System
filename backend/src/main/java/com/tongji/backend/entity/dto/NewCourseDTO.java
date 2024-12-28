@@ -11,7 +11,5 @@ public class NewCourseDTO {
 
     private String courseDescription;
 
-    private Integer courseGrade;
-
     private String coursePhotoUrl;
 }

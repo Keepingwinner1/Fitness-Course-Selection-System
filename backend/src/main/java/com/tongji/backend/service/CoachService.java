@@ -69,7 +69,7 @@ public class CoachService implements ICoachService {
         BeanUtils.copyProperties(newClassDTO, courseClass);
         courseClass.setStatus(0);
         var c=classRepository.save(courseClass);
-        teachesRepository.save(new Teaches(c.getClassId(), newClassDTO.getCoachID()));
+        teachesRepository.save(new Teaches(newClassDTO.getCoachID(),c.getClassId()));
         return true;
     }
 
