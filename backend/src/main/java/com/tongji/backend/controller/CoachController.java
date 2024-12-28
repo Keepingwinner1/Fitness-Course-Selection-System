@@ -21,30 +21,50 @@ public class CoachController {
 
     @PostMapping("/register")
     public ResponseMessage<Coach> register(@RequestBody CoachDTO coach) {
-        return ResponseMessage.success(coachService.addCoach(coach));
+        try {
+            return ResponseMessage.success(coachService.addCoach(coach));
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResponseMessage<Coach> login(@RequestBody LoginDTO loginDTO) {
-        Coach coach =coachService.coachLogin(loginDTO);
-        if(coach.getStatus()!=0) {
-            return ResponseMessage.success(coach);
+        try {
+            Coach coach = coachService.coachLogin(loginDTO);
+            if (coach != null) {
+                if (coach.getStatus() != 0) {
+                    return ResponseMessage.success(coach);
+                } else {
+                    return ResponseMessage.error("教练申请还未通过");
+                }
+            } else {
+                return ResponseMessage.error("教练不存在");
+            }
         }
-        else{
-            return ResponseMessage.error("教练申请还未通过");
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
         }
     }
-
     @GetMapping("/getAllClass/{coachID}")
     public ResponseMessage<List<CourseClass>> getAllClass(@PathVariable int coachID) {
-        return ResponseMessage.success(coachService.getTeachClass(coachID));
+        try {
+            return ResponseMessage.success(coachService.getTeachClass(coachID));
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
     }
-
     @GetMapping("/getClassStu/{classID}")
     public ResponseMessage<List<StuDTO>> getClassStu(@PathVariable int classID) {
-        return ResponseMessage.success(coachService.getClassStu(classID));
+        try {
+            return ResponseMessage.success(coachService.getClassStu(classID));
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
     }
-
     @PostMapping("/createClass")
     public ResponseMessage<String> createClass(@RequestBody NewClassDTO newClassDTO) {
         try {

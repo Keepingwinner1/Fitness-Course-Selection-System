@@ -9,7 +9,11 @@ import java.util.Optional;
 
 public interface CoachRepository extends JpaRepository<Coach, Integer> {
 
-    Optional<Coach> findByUserID(int userID);
+    @Query("select  c from Coach  c where c.userID=?1")
+    Coach findByUserID(int userID);
 
     List<Coach> findAllByStatusAndGymID(int status, int gymID);
+
+    @Query("select exists (select c from Coach  c where c.userID=?1 and c.gymID=?2)")
+    boolean existsCoachByUserID(Integer userID,Integer gymID);
 }

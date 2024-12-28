@@ -37,13 +37,16 @@ public class AdminService implements IAdminService {
 
      @Override
      public Admin addAdmin(Admin admin) {
+         if(adminRepository.existsAdminByUserID(admin.getUserID(),admin.getGymID())){
+             throw new IllegalArgumentException("管理员已存在");
+         }
          return adminRepository.save(admin);
      }
 
      @Override
      public Admin login(LoginDTO loginDTO){
-          User user=userService.login(loginDTO);
-         return adminRepository.findByUserID(user.getUserID());
+         User user=userService.login(loginDTO);
+         return adminRepository.findByUserID(2);
      }
 
      @Override
