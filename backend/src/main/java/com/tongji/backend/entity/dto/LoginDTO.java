@@ -3,6 +3,15 @@ package com.tongji.backend.entity.dto;
 public class LoginDTO {
     private String userName;
     private String password;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getUserName() {
         return userName;

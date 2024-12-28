@@ -50,8 +50,8 @@ public class CoachService implements ICoachService {
 
     @Override
     public Coach coachLogin(LoginDTO loginDTO) {
-        User user= userService.login(loginDTO);
-        return coachRepository.findByUserID(user.getUserID());
+        UserDTO userDTO= userService.login(loginDTO);
+        return coachRepository.findByUserID(userDTO.getUserID());
     }
 
     @Override
@@ -81,7 +81,7 @@ public class CoachService implements ICoachService {
         Course course = new Course();
         BeanUtils.copyProperties(newCourseDTO, course);
         courseRepository.save(course);
-        return true;
+        return course;
     }
 
     @Transactional

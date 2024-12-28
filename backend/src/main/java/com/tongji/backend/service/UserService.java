@@ -1,12 +1,10 @@
 package com.tongji.backend.service;
 
 import com.tongji.backend.entity.*;
-import com.tongji.backend.entity.dto.LoginDTO;
-import com.tongji.backend.entity.dto.ProfileDTO;
-import com.tongji.backend.entity.dto.RegisterDTO;
-import com.tongji.backend.entity.dto.ResponseMessage;
+import com.tongji.backend.entity.dto.*;
 import com.tongji.backend.repository.*;
 import com.tongji.backend.entity.dto.ResponseMessage;
+import com.tongji.backend.security.JwtUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,14 +26,24 @@ public class UserService implements IUserService {
     AdminRepository adminRepository;
     @Autowired
     GymRepository gymRepository;
+    @Autowired
+    JwtUtil jwtUtil;
 
     @Override
-    public User login(LoginDTO loginDTO) {
+    public UserDTO login(LoginDTO loginDTO) {
         Optional<User> userOptional = userRepository.findByUserName(loginDTO.getUserName());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+            //检查传入type与数据库中的type是否一致
+            if (!user.getType().equals(loginDTO.getType())) {
+                throw new IllegalArgumentException("用户类型错误");
+            }
+            //将user的属性赋值到UserDTO
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(user, userDTO);
             if (user.getPassword().equals(loginDTO.getPassword())) { // 实际中密码应经过哈希验证
-                return  user;
+                userDTO.setToken(jwtUtil.generateToken(user.getUserID()));
+                return userDTO;
             } else {
                 throw new IllegalArgumentException("密码错误");
             }
@@ -47,6 +55,10 @@ public class UserService implements IUserService {
     @Override
     public User register(RegisterDTO registerDTO) {
         User user = new User();
+        //检查user表中是否已存在该用户名，若有抛出异常
+        if (userRepository.findByUserName(registerDTO.getUserName()).isPresent()) {
+            throw new IllegalArgumentException("用户名已存在");
+        }
         BeanUtils.copyProperties(registerDTO, user);
         user.setRegistrationTime(LocalDateTime.now());
         User res =userRepository.save(user);

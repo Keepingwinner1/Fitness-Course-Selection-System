@@ -2,10 +2,7 @@ package com.tongji.backend.service;
 
 import com.tongji.backend.entity.Book;
 import com.tongji.backend.entity.Payment;
-import com.tongji.backend.entity.dto.BookDTO;
-import com.tongji.backend.entity.dto.ClassDTO;
-import com.tongji.backend.entity.dto.EvaluationDTO;
-import com.tongji.backend.entity.dto.PaymentDTO;
+import com.tongji.backend.entity.dto.*;
 
 import java.util.List;
 
@@ -46,7 +43,7 @@ public interface ICourseService {
     void cancelBooking(Integer bookId);
 
     // 用户取消课程(退款)
-    void cancelCourse(Integer classID);
+    void cancelCourse(CancelDTO cancelDTO);
 
     // 课程结束后评价课程
     void evaluateCourse(EvaluationDTO evaluationDTO);

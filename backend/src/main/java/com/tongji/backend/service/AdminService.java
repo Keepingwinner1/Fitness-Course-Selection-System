@@ -4,6 +4,7 @@ package com.tongji.backend.service;
 import com.tongji.backend.entity.*;
 import com.tongji.backend.entity.dto.LoginDTO;
 import com.tongji.backend.entity.dto.ProcessDTO;
+import com.tongji.backend.entity.dto.UserDTO;
 import com.tongji.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class AdminService implements IAdminService {
 
      @Override
      public Admin login(LoginDTO loginDTO){
-         User user=userService.login(loginDTO);
+         UserDTO userDTO=userService.login(loginDTO);
          return adminRepository.findByUserID(2);
      }
 
