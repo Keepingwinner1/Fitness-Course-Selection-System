@@ -24,7 +24,7 @@ public class CoachController {
 //        return ResponseMessage.success(coachService.addCoach(coach));
 //    }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResponseMessage<Coach> login(@RequestBody LoginDTO loginDTO) {
         Coach coach =coachService.coachLogin(loginDTO);
         if(coach.getStatus()!=0) {
@@ -34,15 +34,23 @@ public class CoachController {
             return ResponseMessage.error("教练申请还未通过");
         }
     }
-
     @GetMapping("/getAllClass/{coachID}")
     public ResponseMessage<List<CourseClass>> getAllClass(@PathVariable int coachID) {
-        return ResponseMessage.success(coachService.getTeachClass(coachID));
+        try {
+            return ResponseMessage.success(coachService.getTeachClass(coachID));
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
     }
-
     @GetMapping("/getClassStu/{classID}")
     public ResponseMessage<List<StuDTO>> getClassStu(@PathVariable int classID) {
-        return ResponseMessage.success(coachService.getClassStu(classID));
+        try {
+            return ResponseMessage.success(coachService.getClassStu(classID));
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
     }
 
     @PostMapping("/createClass")

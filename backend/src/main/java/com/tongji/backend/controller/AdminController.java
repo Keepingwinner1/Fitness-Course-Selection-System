@@ -29,7 +29,12 @@ public class AdminController {
     public ResponseMessage<Admin> login(@RequestBody LoginDTO loginDTO) {
         try{
             Admin admin=adminService.login(loginDTO);
-            return ResponseMessage.success(admin);
+            if(admin!=null){
+                return ResponseMessage.success(admin);
+            }
+            else{
+                return ResponseMessage.error("管理员不存在");
+            }
         }
         catch(Exception e){
             return ResponseMessage.error(e.getMessage());

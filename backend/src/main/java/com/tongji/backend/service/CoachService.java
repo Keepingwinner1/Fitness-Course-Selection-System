@@ -38,6 +38,9 @@ public class CoachService implements ICoachService {
 
     @Override
     public Coach addCoach(CoachDTO coachDTO) {
+        if(coachRepository.existsCoachByUserID(coachDTO.getUserID(),coachDTO.getGymID())){
+            throw new IllegalArgumentException("教练已存在");
+        }
         Coach coach = new Coach();
         BeanUtils.copyProperties(coachDTO, coach);
         coach.setRegisterTime(LocalDateTime.now());
@@ -48,9 +51,7 @@ public class CoachService implements ICoachService {
     @Override
     public Coach coachLogin(LoginDTO loginDTO) {
         User user= userService.login(loginDTO);
-        return coachRepository.findByUserID(user.getUserID())
-                .orElseThrow(()->new IllegalArgumentException("教练不存在"));
-
+        return coachRepository.findByUserID(user.getUserID());
     }
 
     @Override
@@ -127,11 +128,10 @@ public class CoachService implements ICoachService {
 
     @Override
     public void modifyCoach(CoachDTO coachDTO) {
-        Optional<Coach> coach=coachRepository.findByUserID(coachDTO.getUserID());
-        if(coach.isPresent()){
-            Coach coach1=coach.get();
-            BeanUtils.copyProperties(coachDTO, coach1);
-            coachRepository.save(coach1);
+        Coach coach=coachRepository.findByUserID(coachDTO.getUserID());
+        if(coach!=null){
+            BeanUtils.copyProperties(coachDTO, coach);
+            coachRepository.save(coach);
         }
         else{
             throw new RuntimeException("找不到教练信息");
