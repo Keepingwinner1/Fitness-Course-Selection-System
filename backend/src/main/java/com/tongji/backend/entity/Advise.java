@@ -14,7 +14,6 @@ public class Advise {
     @Column(name = "class_id")
     private Integer classId;
 
-    @Id
     @Column(name = "user_id")
     private Integer userId;
 
