@@ -30,15 +30,19 @@ public class CoachController {
 
     @GetMapping("/login")
     public ResponseMessage<Coachs> login(@RequestBody LoginDTO loginDTO) {
-        Coach coach =coachService.coachLogin(loginDTO);
-        if(coach.getStatus()!=0) {
-            Coachs coachs=new Coachs();
-            BeanUtils.copyProperties(coach,coachs);
-            coachs.setToken(jwtUtil.generateToken(coachs.getUserID()));
-            return ResponseMessage.success(coachs);
+        try {
+            Coach coach = coachService.coachLogin(loginDTO);
+            if (coach.getStatus() != 0) {
+                Coachs coachs = new Coachs();
+                BeanUtils.copyProperties(coach, coachs);
+                coachs.setToken(jwtUtil.generateToken(coachs.getUserID()));
+                return ResponseMessage.success(coachs);
+            } else {
+                return ResponseMessage.error("教练申请还未通过");
+            }
         }
-        else{
-            return ResponseMessage.error("教练申请还未通过");
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
         }
     }
     @GetMapping("/getAllClass/{coachID}")

@@ -47,7 +47,7 @@ public class AdminService implements IAdminService {
      @Override
      public Admin login(LoginDTO loginDTO){
          UserDTO userDTO=userService.login(loginDTO);
-         return adminRepository.findByUserID(2);
+         return adminRepository.findByUserID(userDTO.getUserID());
      }
 
      @Override
