@@ -1,5 +1,8 @@
 package com.tongji.backend.entity.dto;
 
+import lombok.Data;
+
+@Data
 public class NewCourseDTO {
 
     private String courseType;

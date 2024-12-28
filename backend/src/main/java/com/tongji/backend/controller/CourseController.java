@@ -74,7 +74,6 @@ public class CourseController {
     }
 
 
-
     // 用户预订课程（加入购物车）
     @PostMapping("/book")
     public ResponseMessage<Book> bookCourse(@RequestBody BookDTO bookDTO) {

@@ -1,11 +1,15 @@
 package com.tongji.backend.service;
 
+import com.tongji.backend.entity.Admin;
+import com.tongji.backend.entity.Coach;
 import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.User;
 import com.tongji.backend.entity.dto.LoginDTO;
 import com.tongji.backend.entity.dto.ProfileDTO;
 import com.tongji.backend.entity.dto.RegisterDTO;
 import com.tongji.backend.entity.dto.ResponseMessage;
+import com.tongji.backend.repository.AdminRepository;
+import com.tongji.backend.repository.CoachRepository;
 import com.tongji.backend.repository.TaskRepository;
 import com.tongji.backend.entity.dto.ResponseMessage;
 import com.tongji.backend.repository.UserRepository;
@@ -24,7 +28,10 @@ public class UserService implements IUserService {
     UserRepository userRepository; // 自动注入数据库的操作对象
     @Autowired
     TaskRepository taskRepository;
-
+    @Autowired
+    CoachRepository coachRepository;
+    @Autowired
+    AdminRepository adminRepository;
 
     @Override
     public User login(LoginDTO loginDTO) {
@@ -46,7 +53,22 @@ public class UserService implements IUserService {
         User user = new User();
         BeanUtils.copyProperties(registerDTO, user);
         user.setRegistrationTime(LocalDateTime.now());
-        return userRepository.save(user);
+        User res =userRepository.save(user);
+        //需要向教练表/管理员表中插入一条记录
+        if (registerDTO.getType().equals("coach")) {
+            // 向教练表插入记录
+            Coach coach = new Coach();
+            coach.setCoachID(res.getUserID());
+            BeanUtils.copyProperties(registerDTO, coach);
+            coachRepository.save(coach);
+        } else if (registerDTO.getType().equals("admin")) {
+            // 向管理员表插入记录
+            Admin admin = new Admin();
+            admin.setUserID(res.getUserID());
+            BeanUtils.copyProperties(registerDTO, admin);
+            adminRepository.save(admin);
+        }
+        return res;
     }
 
     @Override

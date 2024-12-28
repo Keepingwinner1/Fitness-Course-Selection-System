@@ -35,8 +35,6 @@ public class UserController {
         return ResponseMessage.success(user);
     }
 
-    //教练身份的信息需要插入教练表；管理员呢？
-
 
     @GetMapping("/profile/{userID}") // 获取用户资料
     public ResponseMessage<ProfileDTO> getUserProfile(@PathVariable Integer userID) {
