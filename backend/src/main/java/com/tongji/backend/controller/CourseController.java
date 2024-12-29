@@ -1,6 +1,7 @@
 package com.tongji.backend.controller;
 
 import com.tongji.backend.entity.Book;
+import com.tongji.backend.entity.Participate;
 import com.tongji.backend.entity.Payment;
 import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.dto.*;
@@ -119,6 +120,16 @@ public class CourseController {
     public ResponseMessage<Void> evaluateCourse(@RequestBody EvaluationDTO evaluationDTO) {
         courseService.evaluateCourse(evaluationDTO);
         return ResponseMessage.success(null);
+    }
+
+    @GetMapping("/evaluate/{class}")
+    public ResponseMessage<List<Participate>> updateEvaluate(@PathVariable Integer classID) {
+        try{
+            return ResponseMessage.success(courseService.getEvaluate(classID));
+        }
+        catch (Exception e){
+            return ResponseMessage.error(e.getMessage());
+        }
     }
 
     @PutMapping("/quitCourse/{userID}/{classID}")

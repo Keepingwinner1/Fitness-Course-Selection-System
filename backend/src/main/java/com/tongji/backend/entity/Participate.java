@@ -1,6 +1,8 @@
 package com.tongji.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "participate")
@@ -17,8 +19,10 @@ public class Participate {
     @Column(name = "class_id")
     private Integer classId;
 
+    @Getter
+    @Setter
     @Column(name = "grade")
-    private Integer grade;
+    private Float grade;
 
     @Lob
     @Column(name = "evaluate")
@@ -49,13 +53,6 @@ public class Participate {
         this.classId = classId;
     }
 
-    public Integer getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
 
     public String getEvaluate() {
         return evaluate;

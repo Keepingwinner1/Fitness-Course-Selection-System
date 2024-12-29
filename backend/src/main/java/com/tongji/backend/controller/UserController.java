@@ -53,12 +53,6 @@ public class UserController {
         return ResponseMessage.success(profile);
     }
 
-    @GetMapping("/getTasks/{classID}")
-    public ResponseMessage<List<Task>> getTasks(@PathVariable Integer classID) {
-        List<Task> tasks=userService.getTasks(classID);
-        return ResponseMessage.success(tasks);
-    }
-
     @GetMapping("/updateToken")
     public ResponseMessage<String> updateToken(@RequestBody String token) {
         return ResponseMessage.success("更新成功",jwtUtil.updateToken(token));

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -322,6 +321,11 @@ public class CourseService implements ICourseService {
 
         // 3. 保存更新后的参与记录
         participateRepository.save(participate);
+    }
+
+    @Override
+    public List<Participate> getEvaluate(Integer classID){
+        return participateRepository.findParticipatesByClassId(classID);
     }
 
     @Override

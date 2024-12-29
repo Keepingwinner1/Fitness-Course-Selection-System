@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ParticipateRepository extends JpaRepository<Participate, Integer> {
     Participate findByClassId(Integer classId);
@@ -13,5 +15,8 @@ public interface ParticipateRepository extends JpaRepository<Participate, Intege
     Participate findByClassIdAndTraineeId(Integer classId, Integer traineeId);
 
     void deleteParticipateByClassIdAndTraineeId(Integer classId, Integer traineeId);
+
+    @Query("select p from Participate p where p.classId=?1")
+    List<Participate> findParticipatesByClassId(Integer classID);
 }
 

@@ -1,6 +1,7 @@
 package com.tongji.backend.service;
 
 import com.tongji.backend.entity.Book;
+import com.tongji.backend.entity.Participate;
 import com.tongji.backend.entity.Payment;
 import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.dto.*;
@@ -48,6 +49,8 @@ public interface ICourseService {
 
     // 课程结束后评价课程
     void evaluateCourse(EvaluationDTO evaluationDTO);
+
+    List<Participate> getEvaluate(Integer classID);
 
     void quitCourse(Integer classID, Integer userID);
 

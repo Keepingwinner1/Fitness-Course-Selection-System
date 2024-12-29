@@ -4,7 +4,7 @@ public class EvaluationDTO {
 
     private  Integer traineeId;
     private Integer classId;
-    private Integer grade;
+    private Float grade;
     private String evaluate;
 
     public Integer getTraineeId() {
@@ -23,11 +23,11 @@ public class EvaluationDTO {
         this.classId = classId;
     }
 
-    public Integer getGrade() {
+    public Float getGrade() {
         return grade;
     }
 
-    public void setGrade(Integer grade) {
+    public void setGrade(Float grade) {
         this.grade = grade;
     }
 

@@ -37,17 +37,6 @@ public class CoachService implements ICoachService {
     @Autowired
     private CoursePublishRepository coursePublishRepository;
 
-//    @Override
-//    public Coach addCoach(CoachDTO coachDTO) {
-//        if(coachRepository.existsCoachByUserID(coachDTO.getUserID(),coachDTO.getGymID())){
-//            throw new IllegalArgumentException("教练已存在");
-//        }
-//        Coach coach = new Coach();
-//        BeanUtils.copyProperties(coachDTO, coach);
-//        coach.setRegisterTime(LocalDateTime.now());
-//        coach.setStatus(0);
-//        return coachRepository.save(coach);
-//    }
 
     @Override
     public Coach coachLogin(LoginDTO loginDTO) {
@@ -159,6 +148,7 @@ public class CoachService implements ICoachService {
         return courseRepository.findById(courseID).orElse(null);
     }
 
+    @Override
     public void applyForGym(ApplyForGymDTO applyForGymDTO) {
         if(coachRepository.existsCoachByCoachID(applyForGymDTO.getCoachID(),applyForGymDTO.getGymID())){
             throw new RuntimeException("该教练已申请");
