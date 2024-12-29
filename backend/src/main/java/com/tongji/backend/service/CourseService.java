@@ -259,9 +259,8 @@ public class CourseService implements ICourseService {
                 .orElseThrow(() -> new IllegalArgumentException("班级不存在，classID: " + cancelDTO.getClassID()));
         // 检查当前日期是否在课程开始时间之前，若不在，进入审核环节
         if (LocalDateTime.now().isAfter(courseClass.getCourseStartTime())) {
-            // 课程开始时间已过，进入审核环节
-            this.quitCourse(cancelDTO.getClassID(), cancelDTO.getUserID());
-            return;
+            //抛出异常
+            throw new IllegalArgumentException("课程开始时间已过，请先进行退款申请");
         }
 
         // 2. 更新 Book 表中与该课程相关的记录，将 bookStatus 设置为已取消 (2)

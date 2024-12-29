@@ -151,8 +151,8 @@ public class CoachController {
     @PostMapping("/getClassByCourseID")
     public ResponseMessage<List<CourseClass>> getClassByCourseID(@RequestBody GetClassDTO getClassDTO){
         try{
-            coachService.getClassByCourseID(getClassDTO);
-            return ResponseMessage.success("课程班级获取成功");
+            var ret=coachService.getClassByCourseID(getClassDTO);
+            return ResponseMessage.success("课程班级获取成功",ret);
         } catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
         }
