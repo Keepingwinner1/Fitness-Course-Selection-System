@@ -24,4 +24,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     @Query("SELECT b FROM Book b WHERE b.classId = ?1 AND b.bookStatus = ?2")
     Book findByClassIdAndStatus(Integer classID, int i);
+
+    @Query("select exists (select b from Book b where b.classId=?1)")
+    boolean existsBookByClassId(Integer classId);
 }

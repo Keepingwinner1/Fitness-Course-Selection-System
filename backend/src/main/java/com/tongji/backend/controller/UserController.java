@@ -64,6 +64,11 @@ public class UserController {
         return ResponseMessage.success("更新成功",jwtUtil.updateToken(token));
     }
 
+    @GetMapping("/getToken" )
+    public ResponseMessage<String> getToken() {
+        return ResponseMessage.success("更新成功",jwtUtil.generateToken(1));
+    }
+
 
 
 //    //增加  //@RequestBody将前台传过来的JSON对象转为User对象

@@ -177,14 +177,19 @@ public class CourseService implements ICourseService {
 
     @Override
     public Book bookCourse(BookDTO bookDTO ) {
-        Book book = new Book();
-        book.setClassId(bookDTO.getClassId());
-        book.setTraineeId(bookDTO.getTraineeId());
-        book.setPaymentId(null);
-        book.setPayMethod("default");
-        book.setBookStatus(0); // 初始状态为未支付
-        book.setBookTime(LocalDateTime.now());
-        return bookRepository.save(book);
+        if (bookRepository.existsBookByClassId(bookDTO.getClassId())) {
+            Book book = new Book();
+            book.setClassId(bookDTO.getClassId());
+            book.setTraineeId(bookDTO.getTraineeId());
+            book.setPaymentId(null);
+            book.setPayMethod("default");
+            book.setBookStatus(0); // 初始状态为未支付
+            book.setBookTime(LocalDateTime.now());
+            return bookRepository.save(book);
+        }
+        else{
+            throw new IllegalArgumentException("本课程已预约");
+        }
     }
 
     @Override
@@ -324,7 +329,7 @@ public class CourseService implements ICourseService {
     public void quitCourse(Integer classID, Integer userID){
         Book book = bookRepository.findByClassId(classID);
         if(book!=null){
-            Integer gymID=gymRepository.findByBookID(book.getBookId());
+            Integer gymID=gymRepository.findByBookID(classID);
             Payment payment=new Payment();
             payment.setPaymentStatus(3);
             payment.setPayMethod(null);

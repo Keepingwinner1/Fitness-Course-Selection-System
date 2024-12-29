@@ -85,10 +85,14 @@ public class CourseController {
     // 用户预订课程（加入购物车）
     @PostMapping("/book")
     public ResponseMessage<Book> bookCourse(@RequestBody BookDTO bookDTO) {
-        Book bookedCourse = courseService.bookCourse(bookDTO);
-        return ResponseMessage.success(bookedCourse);
+        try {
+            Book bookedCourse = courseService.bookCourse(bookDTO);
+            return ResponseMessage.success(bookedCourse);
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
     }
-
     // 用户支付课程
     @PostMapping("/pay")
     public ResponseMessage<Payment> payForCourse(@RequestBody PaymentDTO paymentDTO) {

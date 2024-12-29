@@ -9,9 +9,8 @@ public interface GymRepository extends JpaRepository<Gym, Integer> {
 
     @Query("SELECT ccc.gymID " +
             "FROM CourseClass c " +
-            "JOIN Book b ON b.classId = c.classId " +
             "JOIN Teaches t ON c.classId = t.classID " +
             "JOIN Coach ccc ON t.coachID = ccc.coachID " +
-            "WHERE b.bookId = :bookID")
+            "WHERE c.classId = :bookID")
     Integer findByBookID(@Param("bookID") Integer bookID);
 }
