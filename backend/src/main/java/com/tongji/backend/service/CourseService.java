@@ -336,7 +336,7 @@ public class CourseService implements ICourseService {
         if(book!=null && book.getBookStatus()==1){
             Integer gymID=gymRepository.findByBookID(classID);
             Payment payment=new Payment();
-            payment.setPaymentStatus(3);
+            payment.setPaymentStatus(2);
             payment.setPayMethod(null);
             payment.setPayTime(LocalDateTime.now());
             payment.setAmount(classRepository.findById(book.getClassId()).orElseThrow(()->new RuntimeException("未找到课程")).getCoursePrice());
