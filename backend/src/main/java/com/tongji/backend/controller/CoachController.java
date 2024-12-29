@@ -1,10 +1,7 @@
 package com.tongji.backend.controller;
 
 
-import com.tongji.backend.entity.Coach;
-import com.tongji.backend.entity.Course;
-import com.tongji.backend.entity.CourseClass;
-import com.tongji.backend.entity.Task;
+import com.tongji.backend.entity.*;
 import com.tongji.backend.entity.dto.*;
 import com.tongji.backend.service.CoachService;
 import org.springframework.beans.BeanUtils;
@@ -63,7 +60,7 @@ public class CoachController {
     }
 
     @GetMapping("/getClassStu/{classID}")
-    public ResponseMessage<List<StuDTO>> getClassStu(@PathVariable int classID) {
+    public ResponseMessage<List<User>> getClassStu(@PathVariable int classID) {
         try {
             return ResponseMessage.success(coachService.getClassStu(classID));
         }

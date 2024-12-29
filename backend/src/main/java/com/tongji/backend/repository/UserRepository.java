@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, Integer> {  // 继承CrudRepository接口，自动实现增删改查功能
     Optional<User> findByUserName(String userName);
 
-    @Query("select new com.tongji.backend.entity.dto.StuDTO(u.userID,u.userName,u.iconURL) from User u join " +
+    @Query("select u from User u join " +
             "Advise a on u.userID=a.userId where a.classId=?1")
-    List<StuDTO> getClassSTU(Integer classId);
+    List<User> getClassSTU(Integer classId);
 }

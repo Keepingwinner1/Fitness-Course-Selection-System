@@ -398,6 +398,7 @@ public class CourseService implements ICourseService {
         classDTO.setCourseStartTime(classEntity.getCourseStartTime());
         classDTO.setCourseEndTime(classEntity.getCourseEndTime());
         classDTO.setDayOfWeek(classEntity.getDayOfWeek());
+        classDTO.setCourseId(courseEntity.getCourseId());
         return classDTO;
     }
 }

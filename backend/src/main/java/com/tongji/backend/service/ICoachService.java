@@ -1,9 +1,6 @@
 package com.tongji.backend.service;
 
-import com.tongji.backend.entity.Coach;
-import com.tongji.backend.entity.Course;
-import com.tongji.backend.entity.CourseClass;
-import com.tongji.backend.entity.Task;
+import com.tongji.backend.entity.*;
 import com.tongji.backend.entity.dto.*;
 import jakarta.transaction.Transactional;
 
@@ -17,7 +14,7 @@ public interface ICoachService {
 
     List<CourseClass> getTeachClass(int coachID);
 
-    List<StuDTO> getClassStu(int classID);
+    List<User> getClassStu(int classID);
 
     boolean createClass(NewClassDTO newClassDTO);
 

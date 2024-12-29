@@ -1,6 +1,9 @@
 package com.tongji.backend.entity.dto;
 
 import jakarta.persistence.Column;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -30,6 +33,9 @@ public class ClassDTO {
 
     private Integer bookId;
 
+    @Getter
+    @Setter
+    private Integer courseId;
 
     // 无参构造函数
     public ClassDTO() {

@@ -61,7 +61,7 @@ public class CoachService implements ICoachService {
     }
 
     @Override
-    public List<StuDTO> getClassStu(int classID){
+    public List<User> getClassStu(int classID){
         return userRepository.getClassSTU(classID);
     }
 
