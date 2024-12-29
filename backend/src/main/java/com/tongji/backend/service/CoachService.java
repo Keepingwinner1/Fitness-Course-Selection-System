@@ -50,11 +50,11 @@ public class CoachService implements ICoachService {
 //        return coachRepository.save(coach);
 //    }
 
-//    @Override
-//    public Coach coachLogin(LoginDTO loginDTO) {
-//        UserDTO userDTO= userService.login(loginDTO);
-//        return coachRepository.findByUserID(userDTO.getUserID());
-//    }
+    @Override
+    public Coach coachLogin(LoginDTO loginDTO) {
+        UserDTO userDTO= userService.login(loginDTO);
+        return coachRepository.findByUserID(userDTO.getUserID());
+    }
 
     @Override
     public List<CourseClass> getTeachClass(int coachID) {

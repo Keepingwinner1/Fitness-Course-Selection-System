@@ -13,7 +13,7 @@ public interface ICoachService {
 
 //    Coach addCoach(CoachDTO coach);
 //
-//    Coach coachLogin(LoginDTO loginDTO);
+    Coach coachLogin(LoginDTO loginDTO);
 
     List<CourseClass> getTeachClass(int coachID);
 
