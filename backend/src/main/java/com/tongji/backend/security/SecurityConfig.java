@@ -27,9 +27,9 @@ public class SecurityConfig {
                 .csrf().disable()  // 禁用 CSRF 防护，适用于非浏览器客户端的应用
                 .authorizeRequests()
                 .requestMatchers("/user/login", "/user/register","/admin/login","/coach/login").permitAll()  // 允许登录和注册请求不需要认证
-                .anyRequest().authenticated()  // 其他请求需要认证
-                .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  // 在用户名密码认证过滤器之前加入自定义 JWT 过滤器
+                .anyRequest().authenticated() ; // 其他请求需要认证
+                //.and()
+                //.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  // 在用户名密码认证过滤器之前加入自定义 JWT 过滤器
 
         return http.build();
     }

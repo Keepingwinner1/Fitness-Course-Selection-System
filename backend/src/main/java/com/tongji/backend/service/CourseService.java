@@ -3,7 +3,6 @@ package com.tongji.backend.service;
 import com.tongji.backend.entity.*;
 import com.tongji.backend.entity.dto.*;
 import com.tongji.backend.repository.*;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +38,8 @@ public class CourseService implements ICourseService {
     private AdviseRepository adviseRepository;
     @Autowired
     private TeachesRepository teachesRepository;
-
+    @Autowired
+    private  TaskRepository taskRepository;
 
     @Override
     public List<ClassDTO> getAllCourses() {
@@ -321,18 +321,17 @@ public class CourseService implements ICourseService {
 
     @Override
     @Transactional
-    public void quitCourse(Integer bookID, Integer userID){
-        Optional<Book> book =  bookRepository.findById(bookID);
-        if(book.isPresent()){
-            Book bookEntity = book.get();
-            Integer gymID=gymRepository.findByBookID(bookEntity.getBookId());
+    public void quitCourse(Integer classID, Integer userID){
+        Book book = bookRepository.findByClassId(classID);
+        if(book!=null){
+            Integer gymID=gymRepository.findByBookID(book.getBookId());
             Payment payment=new Payment();
             payment.setPaymentStatus(3);
             payment.setPayMethod(null);
             payment.setPayTime(LocalDateTime.now());
-            payment.setAmount(classRepository.findById(bookEntity.getClassId()).orElseThrow(()->new RuntimeException("未找到课程")).getCoursePrice());
+            payment.setAmount(classRepository.findById(book.getClassId()).orElseThrow(()->new RuntimeException("未找到课程")).getCoursePrice());
             var p =paymentRepository.save(payment);
-            refundRepository.save(new Refund(p.getPaymentId(),gymID,userID,LocalDateTime.now(),0,bookID));
+            refundRepository.save(new Refund(p.getPaymentId(),gymID,userID,LocalDateTime.now(),0,book.getClassId()));
         }
     }
 
@@ -356,6 +355,12 @@ public class CourseService implements ICourseService {
         }
         else throw new RuntimeException("未找到课程");
     }
+
+    @Override
+    public List<Task> getAllTasks(Integer classID) {
+        return taskRepository.findByClassID(classID);
+    }
+
 
 
     private ClassAndStateDTO mapToClassAndStateDTO(CourseClass classEntity, Course courseEntity, String state) {
