@@ -55,8 +55,10 @@ public class CourseService implements ICourseService {
                     Course course = courseRepository.findById(classEntity.getCourseId())
                             .orElseThrow(() -> new IllegalArgumentException("课程未找到，ID：" + classEntity.getCourseId()));
                     var p=mapToClassDTO(classEntity, course);
-                    if(bookRepository.existsBookByClassIdAAndTraineeId(classEntity.getClassId(), userId)) {
+                    var b=bookRepository.findBookByClassIdAndTraineeId(classEntity.getClassId(), userId);
+                    if(b!=null) {
                         p.setBook(true);
+                        p.setBookId(b.getBookId());
                     }
                     else{
                         p.setBook(false);
@@ -182,7 +184,7 @@ public class CourseService implements ICourseService {
 
     @Override
     public Book bookCourse(BookDTO bookDTO ) {
-        if (!bookRepository.existsBookByClassIdAAndTraineeId(bookDTO.getClassId(),bookDTO.getTraineeId())) {
+        if (!bookRepository.existsBookByClassIdAndTraineeId(bookDTO.getClassId(),bookDTO.getTraineeId())) {
             Book book = new Book();
             book.setClassId(bookDTO.getClassId());
             book.setTraineeId(bookDTO.getTraineeId());
