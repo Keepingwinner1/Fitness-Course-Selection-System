@@ -35,8 +35,10 @@ public class AdminService implements IAdminService {
     private CoachRepository coachRepository;
     @Autowired
     private TeachesRepository teachesRepository;
+    @Autowired
+    private AdviseRepository adviseRepository;
 
-     @Override
+    @Override
      public Admin addAdmin(Admin admin) {
          if(adminRepository.existsAdminByUserID(admin.getUserID(),admin.getGymID())){
              throw new IllegalArgumentException("管理员已存在");
@@ -83,7 +85,10 @@ public class AdminService implements IAdminService {
           if(processDTO.isHandle()){
                Optional<Book> courseClass=bookRepository.findById(r.getBookID());
                if(courseClass.isPresent()){
-                    participateRepository.deleteParticipateByClassIdAndTraineeId(courseClass.get().getClassId(),r.getUserID());
+                   courseClass.get().setBookStatus(processDTO.isHandle()?2:1);
+                   bookRepository.save(courseClass.get());
+                   adviseRepository.deleteAdviseByClassIdAndUserId(courseClass.get().getClassId(),r.getUserID());
+                   participateRepository.deleteParticipateByClassIdAndTraineeId(courseClass.get().getClassId(),r.getUserID());
                }
                else{
                     throw new RuntimeException("未找到该用户的课程预约记录");

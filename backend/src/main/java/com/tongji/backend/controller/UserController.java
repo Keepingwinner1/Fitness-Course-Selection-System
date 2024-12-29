@@ -58,7 +58,7 @@ public class UserController {
         return ResponseMessage.success("更新成功",jwtUtil.updateToken(token));
     }
 
-    @GetMapping("/getToken" )
+    @PostMapping("/getToken" )
     public ResponseMessage<String> getToken() {
         return ResponseMessage.success("更新成功",jwtUtil.generateToken(1));
     }
