@@ -24,6 +24,13 @@ public class CourseController {
         return ResponseMessage.success(courses);
     }
 
+    //getClassByClassID
+    @GetMapping("/class/{classID}")
+    public ResponseMessage<ClassDTO> getClassByClassID(@PathVariable Integer classID) {
+        ClassDTO classDTO = courseService.getClassByClassID(classID);
+        return ResponseMessage.success(classDTO);
+    }
+
     // 根据课程类型获取课程
     @GetMapping("/type/{type}")
     public ResponseMessage<List<ClassDTO>> getCoursesByType(@PathVariable String type) {

@@ -154,4 +154,9 @@ public class CoachService implements ICoachService {
     public List<Course> getAllCourse(Integer coachID){
         return courseRepository.findByCoachID(coachID);
     }
+
+    @Override
+    public Course getCourseByCourseID(int courseID) {
+        return courseRepository.findById(courseID).orElse(null);
+    }
 }

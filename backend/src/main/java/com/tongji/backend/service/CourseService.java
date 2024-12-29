@@ -341,6 +341,16 @@ public class CourseService implements ICourseService {
         }
     }
 
+    @Override
+    public ClassDTO getClassByClassID(Integer classID) {
+        if(classRepository.findById(classID).isPresent()){
+            CourseClass courseClass = classRepository.findById(classID).get();
+            Course course = courseRepository.findById(courseClass.getCourseId()).get();
+            return mapToClassDTO(courseClass,course);
+        }
+        else throw new RuntimeException("未找到课程");
+    }
+
 
     private ClassDTO mapToClassDTO(CourseClass classEntity, Course courseEntity) {
         ClassDTO classDTO = new ClassDTO();

@@ -50,6 +50,18 @@ public class CoachController {
             return ResponseMessage.error(e.getMessage());
         }
     }
+
+    //getCourseByCourseID
+    @GetMapping("/getCourseByCourseID/{courseID}")
+    public ResponseMessage<Course> getCourseByCourseID(@PathVariable int courseID) {
+        try {
+            return ResponseMessage.success(coachService.getCourseByCourseID(courseID));
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
+    }
+
     @GetMapping("/getClassStu/{classID}")
     public ResponseMessage<List<StuDTO>> getClassStu(@PathVariable int classID) {
         try {

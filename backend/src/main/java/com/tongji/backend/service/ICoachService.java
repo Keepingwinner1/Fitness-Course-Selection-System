@@ -36,4 +36,6 @@ public interface ICoachService {
     List<CourseClass> getClassByCourseID(GetClassDTO getClassDTO);
 
     List<Course> getAllCourse(Integer coachID);
+
+    Course getCourseByCourseID(int courseID);
 }
