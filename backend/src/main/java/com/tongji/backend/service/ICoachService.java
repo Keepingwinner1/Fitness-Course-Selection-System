@@ -38,4 +38,6 @@ public interface ICoachService {
     List<Course> getAllCourse(Integer coachID);
 
     Course getCourseByCourseID(int courseID);
+
+    void applyForGym(ApplyForGymDTO applyForGymDTO);
 }

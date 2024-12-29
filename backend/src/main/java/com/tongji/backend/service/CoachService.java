@@ -158,4 +158,15 @@ public class CoachService implements ICoachService {
     public Course getCourseByCourseID(int courseID) {
         return courseRepository.findById(courseID).orElse(null);
     }
+
+    public void applyForGym(ApplyForGymDTO applyForGymDTO) {
+        if(coachRepository.existsCoachByCoachID(applyForGymDTO.getCoachID(),applyForGymDTO.getGymID())){
+            throw new RuntimeException("该教练已申请");
+        }
+        else{
+            Coach coach=coachRepository.findByCoachID(applyForGymDTO.getCoachID());
+            coach.setGymID(applyForGymDTO.getGymID());
+            coachRepository.save(coach);
+        }
+    }
 }
