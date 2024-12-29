@@ -81,6 +81,7 @@ public class CoachService implements ICoachService {
     @Transactional
     public Course createCourse(NewCourseDTO newCourseDTO) {
         Course course = new Course();
+        course.setCourseGrade(0);
         BeanUtils.copyProperties(newCourseDTO, course);
         var c =courseRepository.save(course);
         coursePublishRepository.save(new Coursepublish(newCourseDTO.getCoachID(), c.getCourseId()));
