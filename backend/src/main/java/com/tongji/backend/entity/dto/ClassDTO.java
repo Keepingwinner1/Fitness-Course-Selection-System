@@ -37,6 +37,9 @@ public class ClassDTO {
     @Setter
     private Integer courseId;
 
+    @Getter
+    @Setter
+    private boolean book;
     // 无参构造函数
     public ClassDTO() {
     }

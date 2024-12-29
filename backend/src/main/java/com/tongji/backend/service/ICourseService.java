@@ -9,9 +9,8 @@ import com.tongji.backend.entity.dto.*;
 import java.util.List;
 
 public interface ICourseService {
-
-    // 获取所有课程，包括课程详情
-    List<ClassDTO> getAllCourses();
+    
+    List<ClassDTO> getAllCourses(Integer userId);
 
     // 根据课程类型获取课程
     List<ClassDTO> getCoursesByType(String type);

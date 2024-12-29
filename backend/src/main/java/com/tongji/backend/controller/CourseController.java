@@ -20,9 +20,9 @@ public class CourseController {
     private ICourseService courseService;
 
     // 获取所有课程，包括课程详情
-    @GetMapping
-    public ResponseMessage<List<ClassDTO>> getAllCourses() {
-        List<ClassDTO> courses = courseService.getAllCourses();
+    @GetMapping("/allCourse/{userID}")
+    public ResponseMessage<List<ClassDTO>> getAllCourses(@PathVariable int userID) {
+        List<ClassDTO> courses = courseService.getAllCourses(userID);
         return ResponseMessage.success(courses);
     }
 

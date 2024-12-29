@@ -41,7 +41,7 @@ public class CourseService implements ICourseService {
     private  TaskRepository taskRepository;
 
     @Override
-    public List<ClassDTO> getAllCourses() {
+    public List<ClassDTO> getAllCourses(Integer userId) {
         LocalDateTime now = LocalDateTime.now();
         // 从 Class 表获取容量未满且结束时间小于当前时间的课程
         List<CourseClass> availableClasses = classRepository.findAll().stream()
@@ -54,8 +54,14 @@ public class CourseService implements ICourseService {
                 .map(classEntity -> {
                     Course course = courseRepository.findById(classEntity.getCourseId())
                             .orElseThrow(() -> new IllegalArgumentException("课程未找到，ID：" + classEntity.getCourseId()));
-
-                    return mapToClassDTO(classEntity, course);
+                    var p=mapToClassDTO(classEntity, course);
+                    if(bookRepository.existsBookByClassIdAAndTraineeId(classEntity.getClassId(), userId)) {
+                        p.setBook(true);
+                    }
+                    else{
+                        p.setBook(false);
+                    }
+                    return p;
                 })
                 .collect(Collectors.toList());
     }
@@ -176,7 +182,7 @@ public class CourseService implements ICourseService {
 
     @Override
     public Book bookCourse(BookDTO bookDTO ) {
-        if (bookRepository.existsBookByClassId(bookDTO.getClassId())) {
+        if (bookRepository.existsBookByClassIdAAndTraineeId(bookDTO.getClassId(),bookDTO.getTraineeId())) {
             Book book = new Book();
             book.setClassId(bookDTO.getClassId());
             book.setTraineeId(bookDTO.getTraineeId());
