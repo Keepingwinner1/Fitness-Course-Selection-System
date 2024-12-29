@@ -35,8 +35,8 @@ public class CourseService implements ICourseService {
     private GymRepository gymRepository;
     @Autowired
     private RefundRepository refundRepository;
-   @Autowired
-   private AdviseRepository adviseRepository;
+    @Autowired
+    private AdviseRepository adviseRepository;
     @Autowired
     private TeachesRepository teachesRepository;
 
@@ -337,15 +337,43 @@ public class CourseService implements ICourseService {
     }
 
     @Override
-    public ClassDTO getClassByClassID(Integer classID) {
+    public ClassAndStateDTO getClassByClassID(Integer classID) {
         if(classRepository.findById(classID).isPresent()){
             CourseClass courseClass = classRepository.findById(classID).get();
+            //判断当前时间与课程结束时间，课程开始时间的大小关系，并赋值state为notStarted,ongoing,completed
+            String state = "";
+            if(LocalDateTime.now().isBefore(courseClass.getCourseStartTime())){
+                state = "notStarted";
+            }
+            else if(LocalDateTime.now().isAfter(courseClass.getCourseStartTime())&&LocalDateTime.now().isBefore(courseClass.getCourseEndTime())){
+                state = "ongoing";
+            }
+            else if(LocalDateTime.now().isAfter(courseClass.getCourseEndTime())){
+                state = "completed";
+            }
             Course course = courseRepository.findById(courseClass.getCourseId()).get();
-            return mapToClassDTO(courseClass,course);
+            return mapToClassAndStateDTO(courseClass,course,state);
         }
         else throw new RuntimeException("未找到课程");
     }
 
+
+    private ClassAndStateDTO mapToClassAndStateDTO(CourseClass classEntity, Course courseEntity, String state) {
+        ClassAndStateDTO classDTO = new ClassAndStateDTO();
+        classDTO.setState(state);
+        classDTO.setClassId(classEntity.getClassId());
+        classDTO.setCourseType(courseEntity.getCourseType());
+        classDTO.setCourseName(courseEntity.getCourseName());
+        classDTO.setCourseDescription(courseEntity.getCourseDescription());
+        classDTO.setCourseGrade(courseEntity.getCourseGrade());
+        classDTO.setCoursePhotoUrl(courseEntity.getCoursePhotoUrl());
+        classDTO.setCapacity(classEntity.getCapacity());
+        classDTO.setCoursePrice(classEntity.getCoursePrice());
+        classDTO.setCourseStartTime(classEntity.getCourseStartTime());
+        classDTO.setCourseEndTime(classEntity.getCourseEndTime());
+        classDTO.setDayOfWeek(classEntity.getDayOfWeek());
+        return classDTO;
+    }
 
     private ClassDTO mapToClassDTO(CourseClass classEntity, Course courseEntity) {
         ClassDTO classDTO = new ClassDTO();

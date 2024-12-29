@@ -50,6 +50,6 @@ public interface ICourseService {
 
     void quitCourse(Integer classID, Integer userID);
 
-    ClassDTO getClassByClassID(Integer classID);
+    ClassAndStateDTO getClassByClassID(Integer classID);
 }
 
