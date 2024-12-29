@@ -2,6 +2,7 @@ package com.tongji.backend.controller;
 
 import com.tongji.backend.entity.Book;
 import com.tongji.backend.entity.Payment;
+import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.dto.*;
 
 import com.tongji.backend.service.ICourseService;
@@ -116,6 +117,16 @@ public class CourseController {
             return ResponseMessage.success("已发送退款申请");
         }
         catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
+    }
+
+    @GetMapping("/getAllTasks/{classID}")
+    public ResponseMessage<List<Task>>getAllTasks(@PathVariable Integer classID) {
+        try{
+            return  ResponseMessage.success(courseService.getAllTasks(classID));
+        }
+        catch (Exception e){
             return ResponseMessage.error(e.getMessage());
         }
     }

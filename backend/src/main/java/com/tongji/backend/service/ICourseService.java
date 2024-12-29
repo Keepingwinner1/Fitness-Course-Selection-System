@@ -2,6 +2,7 @@ package com.tongji.backend.service;
 
 import com.tongji.backend.entity.Book;
 import com.tongji.backend.entity.Payment;
+import com.tongji.backend.entity.Task;
 import com.tongji.backend.entity.dto.*;
 
 import java.util.List;
@@ -49,5 +50,7 @@ public interface ICourseService {
     void evaluateCourse(EvaluationDTO evaluationDTO);
 
     void quitCourse(Integer classID, Integer userID);
+
+    List<Task> getAllTasks(Integer classID);
 }
 
