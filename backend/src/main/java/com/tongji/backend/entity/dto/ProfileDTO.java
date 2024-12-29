@@ -2,6 +2,7 @@ package com.tongji.backend.entity.dto;
 
 public class ProfileDTO {
     private Integer userID;
+    private String userName;
     private Integer age;
     private String email;
     private String gender;
@@ -10,6 +11,14 @@ public class ProfileDTO {
     private String introduction;
     private String goalType;
     private Float goalWeight;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Integer getUserID() {
         return userID;

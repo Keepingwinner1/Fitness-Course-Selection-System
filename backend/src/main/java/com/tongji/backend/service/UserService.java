@@ -93,9 +93,7 @@ public class UserService implements IUserService {
 
     @Override
     public ProfileDTO getProfile(Integer userID) {
-        User user = userRepository.findById(userID).orElseThrow(() -> {
-            throw new IllegalArgumentException("用户不存在");
-        });
+        User user = userRepository.findById(userID).orElseThrow(() -> new IllegalArgumentException("用户不存在"));
         ProfileDTO profileDTO = new ProfileDTO();
         BeanUtils.copyProperties(user, profileDTO);
         return profileDTO;
