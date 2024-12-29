@@ -38,23 +38,23 @@ public class CoachService implements ICoachService {
     @Autowired
     private CoursePublishRepository coursePublishRepository;
 
-    @Override
-    public Coach addCoach(CoachDTO coachDTO) {
-        if(coachRepository.existsCoachByUserID(coachDTO.getUserID(),coachDTO.getGymID())){
-            throw new IllegalArgumentException("教练已存在");
-        }
-        Coach coach = new Coach();
-        BeanUtils.copyProperties(coachDTO, coach);
-        coach.setRegisterTime(LocalDateTime.now());
-        coach.setStatus(0);
-        return coachRepository.save(coach);
-    }
+//    @Override
+//    public Coach addCoach(CoachDTO coachDTO) {
+//        if(coachRepository.existsCoachByUserID(coachDTO.getUserID(),coachDTO.getGymID())){
+//            throw new IllegalArgumentException("教练已存在");
+//        }
+//        Coach coach = new Coach();
+//        BeanUtils.copyProperties(coachDTO, coach);
+//        coach.setRegisterTime(LocalDateTime.now());
+//        coach.setStatus(0);
+//        return coachRepository.save(coach);
+//    }
 
-    @Override
-    public Coach coachLogin(LoginDTO loginDTO) {
-        UserDTO userDTO= userService.login(loginDTO);
-        return coachRepository.findByUserID(userDTO.getUserID());
-    }
+//    @Override
+//    public Coach coachLogin(LoginDTO loginDTO) {
+//        UserDTO userDTO= userService.login(loginDTO);
+//        return coachRepository.findByUserID(userDTO.getUserID());
+//    }
 
     @Override
     public List<CourseClass> getTeachClass(int coachID) {

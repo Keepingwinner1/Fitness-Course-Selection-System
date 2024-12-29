@@ -18,10 +18,10 @@ public class Coursepublish {
 
     @NonNull
     @Column(name = "coach_id")
-    private Integer coach;
+    private Integer coachID;
 
     @NonNull
     @Column(name = "course_id")
-    private Integer course;
+    private Integer courseID;
 
 }

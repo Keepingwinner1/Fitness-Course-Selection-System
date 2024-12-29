@@ -28,23 +28,23 @@ public class CoachController {
 //        return ResponseMessage.success(coachService.addCoach(coach));
 //    }
 
-    @PostMapping("/login")
-    public ResponseMessage<Coachs> login(@RequestBody LoginDTO loginDTO) {
-        try {
-            Coach coach = coachService.coachLogin(loginDTO);
-            if (coach.getStatus() != 0) {
-                Coachs coachs = new Coachs();
-                BeanUtils.copyProperties(coach, coachs);
-                coachs.setToken(jwtUtil.generateToken(coachs.getUserID()));
-                return ResponseMessage.success(coachs);
-            } else {
-                return ResponseMessage.error("教练申请还未通过");
-            }
-        }
-        catch (Exception e) {
-            return ResponseMessage.error(e.getMessage());
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseMessage<Coachs> login(@RequestBody LoginDTO loginDTO) {
+//        try {
+//            Coach coach = coachService.coachLogin(loginDTO);
+//            if (coach.getStatus() != 0) {
+//                Coachs coachs = new Coachs();
+//                BeanUtils.copyProperties(coach, coachs);
+//                coachs.setToken(jwtUtil.generateToken(coachs.getUserID()));
+//                return ResponseMessage.success(coachs);
+//            } else {
+//                return ResponseMessage.error("教练申请还未通过");
+//            }
+//        }
+//        catch (Exception e) {
+//            return ResponseMessage.error(e.getMessage());
+//        }
+//    }
     @GetMapping("/getAllClass/{coachID}")
     public ResponseMessage<List<CourseClass>> getAllClass(@PathVariable int coachID) {
         try {
