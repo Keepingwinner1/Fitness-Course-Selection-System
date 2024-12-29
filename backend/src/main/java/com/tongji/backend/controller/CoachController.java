@@ -166,9 +166,9 @@ public class CoachController {
     }
 
     @PostMapping("/applyForGym")
-    public ResponseMessage<String> applyForGym(@RequestBody ApplyForGymDTO applyForGymDTO) {
+    public ResponseMessage<String> applyForGym(@RequestBody CoachDTO coachDTO) {
         try{
-            coachService.applyForGym(applyForGymDTO);
+            coachService.applyForGym(coachDTO);
             return ResponseMessage.success("申请成功");
         }
         catch (Exception e) {

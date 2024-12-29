@@ -153,28 +153,11 @@ public class CourseController {
         }
     }
 
+
+
 }
 
 
 
-
-
-//    @PostMapping
-//    public ResponseMessage<Course> addCourse(@RequestBody CourseDTO courseDTO) {
-//        Course course = courseService.addCourse(courseDTO);
-//        return ResponseMessage.success(course);
-//    }
-
-//    @PutMapping
-//    public ResponseMessage<Course> editCourse(@RequestBody CourseDTO courseDTO) {
-//        Course course = courseService.editCourse(courseDTO);
-//        return ResponseMessage.success(course);
-//    }
-//
-//    @DeleteMapping("/{courseID}")
-//    public ResponseMessage<Course> deleteCourse(@PathVariable Integer courseID) {
-//        courseService.deleteCourse(courseID);
-//        return ResponseMessage.success(null);
-//    }
 
 

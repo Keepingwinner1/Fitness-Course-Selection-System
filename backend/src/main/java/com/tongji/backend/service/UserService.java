@@ -68,6 +68,7 @@ public class UserService implements IUserService {
             Coach coach = new Coach();
             coach.setUserID(res.getUserID());
             //BeanUtils.copyProperties(registerDTO, coach);
+            coach.setRegisterTime(LocalDateTime.now());
             coach.setStatus(0);
             coachRepository.save(coach);
         } else if (registerDTO.getType().equals("admin")) {

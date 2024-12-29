@@ -36,5 +36,5 @@ public interface ICoachService {
 
     Course getCourseByCourseID(int courseID);
 
-    void applyForGym(ApplyForGymDTO applyForGymDTO);
+    void applyForGym(CoachDTO coachDTO);
 }

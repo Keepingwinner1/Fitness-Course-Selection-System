@@ -149,13 +149,13 @@ public class CoachService implements ICoachService {
     }
 
     @Override
-    public void applyForGym(ApplyForGymDTO applyForGymDTO) {
-        if(coachRepository.existsCoachByCoachID(applyForGymDTO.getCoachID(),applyForGymDTO.getGymID())){
-            throw new RuntimeException("该教练已申请");
+    public void applyForGym(CoachDTO coachDTO) {
+        if(coachRepository.existsCoachByCoachID(coachDTO.getUserID(),coachDTO.getGymID())){
+            throw new RuntimeException("该教练已申请过该健身房");
         }
         else{
-            Coach coach=coachRepository.findByCoachID(applyForGymDTO.getCoachID());
-            coach.setGymID(applyForGymDTO.getGymID());
+            Coach coach=coachRepository.findByUserID(coachDTO.getUserID());
+            BeanUtils.copyProperties(coachDTO, coach);
             coachRepository.save(coach);
         }
     }
