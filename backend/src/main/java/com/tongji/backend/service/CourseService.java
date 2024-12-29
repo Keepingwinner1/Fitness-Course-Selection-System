@@ -182,7 +182,7 @@ public class CourseService implements ICourseService {
 
     @Override
     public Book bookCourse(BookDTO bookDTO ) {
-        if (bookRepository.existsBookByClassIdAAndTraineeId(bookDTO.getClassId(),bookDTO.getTraineeId())) {
+        if (!bookRepository.existsBookByClassIdAAndTraineeId(bookDTO.getClassId(),bookDTO.getTraineeId())) {
             Book book = new Book();
             book.setClassId(bookDTO.getClassId());
             book.setTraineeId(bookDTO.getTraineeId());
@@ -193,7 +193,7 @@ public class CourseService implements ICourseService {
             return bookRepository.save(book);
         }
         else{
-            throw new IllegalArgumentException("本课程已预约");
+            throw new IllegalArgumentException("本课程已预约过");
         }
     }
 
