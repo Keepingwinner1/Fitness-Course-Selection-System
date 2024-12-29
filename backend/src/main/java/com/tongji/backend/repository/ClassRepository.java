@@ -53,7 +53,7 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
     // 根据 coachID 和 courseID 获取匹配的 Class 对象
     @Query("SELECT c FROM CourseClass c " +
             "JOIN Teaches t ON c.classId = t.classID " +
-            "WHERE t.coachID = :coachID AND c.courseId = :courseID")
+            "WHERE t.coachID = :coachID AND c.courseId = :courseID and c.status=1")
     List<CourseClass> findByCoachAndCourse(@Param("coachID") Integer coachID, @Param("courseID") Integer courseID);
 
 
