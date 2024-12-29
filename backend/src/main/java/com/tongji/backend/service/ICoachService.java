@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface ICoachService {
 
-    Coach addCoach(CoachDTO coach);
-
+//    Coach addCoach(CoachDTO coach);
+//
     Coach coachLogin(LoginDTO loginDTO);
 
     List<CourseClass> getTeachClass(int coachID);
@@ -36,4 +36,8 @@ public interface ICoachService {
     List<CourseClass> getClassByCourseID(GetClassDTO getClassDTO);
 
     List<Course> getAllCourse(Integer coachID);
+
+    Course getCourseByCourseID(int courseID);
+
+    void applyForGym(ApplyForGymDTO applyForGymDTO);
 }

@@ -1,13 +1,11 @@
 package com.tongji.backend.entity.dto;
 
-import jakarta.persistence.Column;
 import lombok.Data;
-import lombok.NonNull;
 
 import java.time.LocalDateTime;
 
 @Data
-public class Coachs {
+public class CoachRetDTO {
     private Integer coachID;
 
     private Integer userID;

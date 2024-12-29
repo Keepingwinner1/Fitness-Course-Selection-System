@@ -49,5 +49,7 @@ public interface ICourseService {
     void evaluateCourse(EvaluationDTO evaluationDTO);
 
     void quitCourse(Integer classID, Integer userID);
+
+    ClassAndStateDTO getClassByClassID(Integer classID);
 }
 

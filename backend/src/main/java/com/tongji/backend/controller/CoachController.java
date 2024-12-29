@@ -29,17 +29,13 @@ public class CoachController {
 //    }
 
     @PostMapping("/login")
-    public ResponseMessage<Coachs> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseMessage<CoachRetDTO> login(@RequestBody LoginDTO loginDTO) {
         try {
             Coach coach = coachService.coachLogin(loginDTO);
-            if (coach.getStatus() != 0) {
-                Coachs coachs = new Coachs();
-                BeanUtils.copyProperties(coach, coachs);
-                coachs.setToken(jwtUtil.generateToken(coachs.getUserID()));
-                return ResponseMessage.success(coachs);
-            } else {
-                return ResponseMessage.error("教练申请还未通过");
-            }
+            CoachRetDTO coachret = new CoachRetDTO();
+            BeanUtils.copyProperties(coach, coachret);
+            coachret.setToken(jwtUtil.generateToken(coachret.getUserID()));
+            return ResponseMessage.success(coachret);
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
@@ -54,6 +50,18 @@ public class CoachController {
             return ResponseMessage.error(e.getMessage());
         }
     }
+
+    //getCourseByCourseID
+    @GetMapping("/getCourseByCourseID/{courseID}")
+    public ResponseMessage<Course> getCourseByCourseID(@PathVariable int courseID) {
+        try {
+            return ResponseMessage.success(coachService.getCourseByCourseID(courseID));
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
+    }
+
     @GetMapping("/getClassStu/{classID}")
     public ResponseMessage<List<StuDTO>> getClassStu(@PathVariable int classID) {
         try {
@@ -143,8 +151,8 @@ public class CoachController {
     @PostMapping("/getClassByCourseID")
     public ResponseMessage<List<CourseClass>> getClassByCourseID(@RequestBody GetClassDTO getClassDTO){
         try{
-            coachService.getClassByCourseID(getClassDTO);
-            return ResponseMessage.success("课程班级获取成功");
+            var ret=coachService.getClassByCourseID(getClassDTO);
+            return ResponseMessage.success("课程班级获取成功",ret);
         } catch (Exception e) {
             return ResponseMessage.error(e.getMessage());
         }
@@ -159,4 +167,16 @@ public class CoachController {
             return ResponseMessage.error(e.getMessage());
         }
     }
+
+    @PostMapping("/applyForGym")
+    public ResponseMessage<String> applyForGym(@RequestBody ApplyForGymDTO applyForGymDTO) {
+        try{
+            coachService.applyForGym(applyForGymDTO);
+            return ResponseMessage.success("申请成功");
+        }
+        catch (Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
+    }
+
 }

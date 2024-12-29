@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "coursepublish")
-public class Coursepublish {
+public class CoursePublish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -18,10 +18,10 @@ public class Coursepublish {
 
     @NonNull
     @Column(name = "coach_id")
-    private Integer coach;
+    private Integer coachID;
 
     @NonNull
     @Column(name = "course_id")
-    private Integer course;
+    private Integer courseID;
 
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,17 +37,17 @@ public class CoachService implements ICoachService {
     @Autowired
     private CoursePublishRepository coursePublishRepository;
 
-    @Override
-    public Coach addCoach(CoachDTO coachDTO) {
-        if(coachRepository.existsCoachByUserID(coachDTO.getUserID(),coachDTO.getGymID())){
-            throw new IllegalArgumentException("教练已存在");
-        }
-        Coach coach = new Coach();
-        BeanUtils.copyProperties(coachDTO, coach);
-        coach.setRegisterTime(LocalDateTime.now());
-        coach.setStatus(0);
-        return coachRepository.save(coach);
-    }
+//    @Override
+//    public Coach addCoach(CoachDTO coachDTO) {
+//        if(coachRepository.existsCoachByUserID(coachDTO.getUserID(),coachDTO.getGymID())){
+//            throw new IllegalArgumentException("教练已存在");
+//        }
+//        Coach coach = new Coach();
+//        BeanUtils.copyProperties(coachDTO, coach);
+//        coach.setRegisterTime(LocalDateTime.now());
+//        coach.setStatus(0);
+//        return coachRepository.save(coach);
+//    }
 
     @Override
     public Coach coachLogin(LoginDTO loginDTO) {
@@ -81,9 +80,10 @@ public class CoachService implements ICoachService {
     @Transactional
     public Course createCourse(NewCourseDTO newCourseDTO) {
         Course course = new Course();
+        course.setCourseGrade(0);
         BeanUtils.copyProperties(newCourseDTO, course);
         var c =courseRepository.save(course);
-        coursePublishRepository.save(new Coursepublish(newCourseDTO.getCoachID(), c.getCourseId()));
+        coursePublishRepository.save(new CoursePublish(newCourseDTO.getCoachID(), c.getCourseId()));
         return course;
     }
 
@@ -152,5 +152,21 @@ public class CoachService implements ICoachService {
     @Override
     public List<Course> getAllCourse(Integer coachID){
         return courseRepository.findByCoachID(coachID);
+    }
+
+    @Override
+    public Course getCourseByCourseID(int courseID) {
+        return courseRepository.findById(courseID).orElse(null);
+    }
+
+    public void applyForGym(ApplyForGymDTO applyForGymDTO) {
+        if(coachRepository.existsCoachByCoachID(applyForGymDTO.getCoachID(),applyForGymDTO.getGymID())){
+            throw new RuntimeException("该教练已申请");
+        }
+        else{
+            Coach coach=coachRepository.findByCoachID(applyForGymDTO.getCoachID());
+            coach.setGymID(applyForGymDTO.getGymID());
+            coachRepository.save(coach);
+        }
     }
 }

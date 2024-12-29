@@ -35,8 +35,8 @@ public class CourseService implements ICourseService {
     private GymRepository gymRepository;
     @Autowired
     private RefundRepository refundRepository;
-   @Autowired
-   private AdviseRepository adviseRepository;
+    @Autowired
+    private AdviseRepository adviseRepository;
     @Autowired
     private TeachesRepository teachesRepository;
 
@@ -87,13 +87,8 @@ public class CourseService implements ICourseService {
         int currentDayOfWeek = now.getDayOfWeek().getValue(); // 获取当前星期几（1=周一, ..., 7=周日）
         String dayOfWeekString = (currentDayOfWeek % 7) + ""; // 转换为 0=周日格式
 
-        List<CourseClass> classes = classRepository.findAll().stream()
-                .filter(classEntity -> {
-                    String dayOfWeekField = classEntity.getDayOfWeek(); // 数据库字段
-                    return dayOfWeekField != null && dayOfWeekField.contains(dayOfWeekString);
-                })
-                .toList();
-
+        // 使用自定义查询从 participate 表 join class 表
+        List<CourseClass> classes = classRepository.findTodayClassesByUserIdAndDayOfWeek(userID, dayOfWeekString,now);
         return classes.stream()
                 .map(classEntity -> {
                     Course courseEntity = courseRepository.findById(classEntity.getCourseId())
@@ -102,6 +97,7 @@ public class CourseService implements ICourseService {
                 })
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public List<ClassDTO> getAllOngoingCoursesByUser(Integer userID) {
@@ -263,9 +259,8 @@ public class CourseService implements ICourseService {
                 .orElseThrow(() -> new IllegalArgumentException("班级不存在，classID: " + cancelDTO.getClassID()));
         // 检查当前日期是否在课程开始时间之前，若不在，进入审核环节
         if (LocalDateTime.now().isAfter(courseClass.getCourseStartTime())) {
-            // 课程开始时间已过，进入审核环节
-            this.quitCourse(cancelDTO.getClassID(), cancelDTO.getUserID());
-            return;
+            //抛出异常
+            throw new IllegalArgumentException("课程开始时间已过，请先进行退款申请");
         }
 
         // 2. 更新 Book 表中与该课程相关的记录，将 bookStatus 设置为已取消 (2)
@@ -341,6 +336,44 @@ public class CourseService implements ICourseService {
         }
     }
 
+    @Override
+    public ClassAndStateDTO getClassByClassID(Integer classID) {
+        if(classRepository.findById(classID).isPresent()){
+            CourseClass courseClass = classRepository.findById(classID).get();
+            //判断当前时间与课程结束时间，课程开始时间的大小关系，并赋值state为notStarted,ongoing,completed
+            String state = "";
+            if(LocalDateTime.now().isBefore(courseClass.getCourseStartTime())){
+                state = "notStarted";
+            }
+            else if(LocalDateTime.now().isAfter(courseClass.getCourseStartTime())&&LocalDateTime.now().isBefore(courseClass.getCourseEndTime())){
+                state = "ongoing";
+            }
+            else if(LocalDateTime.now().isAfter(courseClass.getCourseEndTime())){
+                state = "completed";
+            }
+            Course course = courseRepository.findById(courseClass.getCourseId()).get();
+            return mapToClassAndStateDTO(courseClass,course,state);
+        }
+        else throw new RuntimeException("未找到课程");
+    }
+
+
+    private ClassAndStateDTO mapToClassAndStateDTO(CourseClass classEntity, Course courseEntity, String state) {
+        ClassAndStateDTO classDTO = new ClassAndStateDTO();
+        classDTO.setState(state);
+        classDTO.setClassId(classEntity.getClassId());
+        classDTO.setCourseType(courseEntity.getCourseType());
+        classDTO.setCourseName(courseEntity.getCourseName());
+        classDTO.setCourseDescription(courseEntity.getCourseDescription());
+        classDTO.setCourseGrade(courseEntity.getCourseGrade());
+        classDTO.setCoursePhotoUrl(courseEntity.getCoursePhotoUrl());
+        classDTO.setCapacity(classEntity.getCapacity());
+        classDTO.setCoursePrice(classEntity.getCoursePrice());
+        classDTO.setCourseStartTime(classEntity.getCourseStartTime());
+        classDTO.setCourseEndTime(classEntity.getCourseEndTime());
+        classDTO.setDayOfWeek(classEntity.getDayOfWeek());
+        return classDTO;
+    }
 
     private ClassDTO mapToClassDTO(CourseClass classEntity, Course courseEntity) {
         ClassDTO classDTO = new ClassDTO();

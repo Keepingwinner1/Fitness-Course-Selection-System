@@ -14,6 +14,9 @@ public interface CoachRepository extends JpaRepository<Coach, Integer> {
 
     List<Coach> findAllByStatusAndGymID(int status, int gymID);
 
-    @Query("select exists (select c from Coach  c where c.userID=?1 and c.gymID=?2)")
-    boolean existsCoachByUserID(Integer userID,Integer gymID);
+    @Query("select exists (select c from Coach  c where c.coachID=?1 and c.gymID=?2)")
+    boolean existsCoachByCoachID(Integer coachID, Integer gymID);
+
+    @Query("select c from Coach  c where c.coachID=?1")
+    Coach findByCoachID(Integer coachID);
 }
