@@ -9,7 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,7 +83,7 @@ public class CoachService implements ICoachService {
         course.setCourseGrade(0);
         BeanUtils.copyProperties(newCourseDTO, course);
         var c =courseRepository.save(course);
-        coursePublishRepository.save(new Coursepublish(newCourseDTO.getCoachID(), c.getCourseId()));
+        coursePublishRepository.save(new CoursePublish(newCourseDTO.getCoachID(), c.getCourseId()));
         return course;
     }
 

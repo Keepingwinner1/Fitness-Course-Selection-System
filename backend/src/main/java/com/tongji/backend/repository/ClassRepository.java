@@ -68,5 +68,8 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
             "WHERE b.traineeId = :userID AND b.bookStatus = 0")
     List<ClassDTO> findBookedCoursesByUser(@Param("userID") Integer userID);
 
+    @Query("SELECT c FROM CourseClass c JOIN Participate p ON c.classId = p.classId WHERE p.traineeId = :userID AND c.dayOfWeek LIKE %:dayOfWeek% AND c.courseEndTime < :now")
+    List<CourseClass> findTodayClassesByUserIdAndDayOfWeek(@Param("userID") Integer userID, @Param("dayOfWeek") String dayOfWeek, @Param("now") LocalDateTime now);
+
 }
 

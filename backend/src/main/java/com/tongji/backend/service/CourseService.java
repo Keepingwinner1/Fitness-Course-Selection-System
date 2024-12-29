@@ -87,13 +87,8 @@ public class CourseService implements ICourseService {
         int currentDayOfWeek = now.getDayOfWeek().getValue(); // 获取当前星期几（1=周一, ..., 7=周日）
         String dayOfWeekString = (currentDayOfWeek % 7) + ""; // 转换为 0=周日格式
 
-        List<CourseClass> classes = classRepository.findAll().stream()
-                .filter(classEntity -> {
-                    String dayOfWeekField = classEntity.getDayOfWeek(); // 数据库字段
-                    return dayOfWeekField != null && dayOfWeekField.contains(dayOfWeekString);
-                })
-                .toList();
-
+        // 使用自定义查询从 participate 表 join class 表
+        List<CourseClass> classes = classRepository.findTodayClassesByUserIdAndDayOfWeek(userID, dayOfWeekString,now);
         return classes.stream()
                 .map(classEntity -> {
                     Course courseEntity = courseRepository.findById(classEntity.getCourseId())
@@ -102,6 +97,7 @@ public class CourseService implements ICourseService {
                 })
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public List<ClassDTO> getAllOngoingCoursesByUser(Integer userID) {
