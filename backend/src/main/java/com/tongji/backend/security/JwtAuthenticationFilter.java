@@ -32,8 +32,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 Integer userId = jwtUtil.extractUserID(token);
 
-                if (true||(userId != null && jwtUtil.validateToken(token, userId))) {
-
+                if (userId != null && jwtUtil.validateToken(token, userId)) {
+                    // 设置认证信息
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(userId, null, null);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write("Token is invalid or expired");

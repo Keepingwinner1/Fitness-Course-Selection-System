@@ -39,8 +39,6 @@ public class CourseService implements ICourseService {
    private AdviseRepository adviseRepository;
     @Autowired
     private TeachesRepository teachesRepository;
-    @Autowired
-    private TaskRepository taskRepository;
 
 
     @Override
@@ -341,11 +339,6 @@ public class CourseService implements ICourseService {
             var p =paymentRepository.save(payment);
             refundRepository.save(new Refund(p.getPaymentId(),gymID,userID,LocalDateTime.now(),0,bookID));
         }
-    }
-
-    @Override
-    public List<Task> getAllTasks(Integer classID) {
-        return taskRepository.findByClassID(classID);
     }
 
 
