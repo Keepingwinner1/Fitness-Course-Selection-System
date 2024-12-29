@@ -333,7 +333,7 @@ public class CourseService implements ICourseService {
     @Transactional
     public void quitCourse(Integer classID, Integer userID){
         Book book = bookRepository.findByClassId(classID);
-        if(book!=null && book.getBookStatus()==1){
+        if(book!=null && book.getBookStatus()==1&&!refundRepository.existsRefundByUserIDAndBookID(userID,book.getBookId())){
             Integer gymID=gymRepository.findByBookID(classID);
             Payment payment=new Payment();
             payment.setPaymentStatus(2);
@@ -342,6 +342,9 @@ public class CourseService implements ICourseService {
             payment.setAmount(classRepository.findById(book.getClassId()).orElseThrow(()->new RuntimeException("未找到课程")).getCoursePrice());
             var p =paymentRepository.save(payment);
             refundRepository.save(new Refund(p.getPaymentId(),gymID,userID,LocalDateTime.now(),0,book.getClassId()));
+        }
+        else{
+            throw new IllegalArgumentException("退款申请已经发送过");
         }
     }
 

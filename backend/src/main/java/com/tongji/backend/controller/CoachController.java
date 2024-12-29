@@ -32,6 +32,9 @@ public class CoachController {
             CoachRetDTO coachret = new CoachRetDTO();
             BeanUtils.copyProperties(coach, coachret);
             coachret.setToken(jwtUtil.generateToken(coachret.getUserID()));
+            if(coachret.getStatus()==0){
+                coachret.setGymID(null);
+            }
             return ResponseMessage.success(coachret);
         }
         catch (Exception e) {
