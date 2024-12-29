@@ -48,7 +48,7 @@ public interface ICourseService {
     void cancelCourse(CancelDTO cancelDTO);
 
     // 课程结束后评价课程
-    void evaluateCourse(EvaluationDTO evaluationDTO);
+    String evaluateCourse(EvaluationDTO evaluationDTO);
 
     List<Participate> getEvaluate(Integer classID);
 

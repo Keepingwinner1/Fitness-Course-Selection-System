@@ -305,7 +305,7 @@ public class CourseService implements ICourseService {
 
 
     @Override
-    public void evaluateCourse(EvaluationDTO evaluationDTO) {
+    public String evaluateCourse(EvaluationDTO evaluationDTO) {
         // 1. 查找参与记录，确保当前学员已经参与了该课程
         Participate participate = participateRepository.findByClassIdAndTraineeId(
                 evaluationDTO.getClassId(),
@@ -321,6 +321,7 @@ public class CourseService implements ICourseService {
 
         // 3. 保存更新后的参与记录
         participateRepository.save(participate);
+        return "评价成功";
     }
 
     @Override
@@ -332,7 +333,7 @@ public class CourseService implements ICourseService {
     @Transactional
     public void quitCourse(Integer classID, Integer userID){
         Book book = bookRepository.findByClassId(classID);
-        if(book!=null){
+        if(book!=null && book.getBookStatus()==1){
             Integer gymID=gymRepository.findByBookID(classID);
             Payment payment=new Payment();
             payment.setPaymentStatus(3);

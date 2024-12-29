@@ -118,12 +118,11 @@ public class CourseController {
     // 课程结束后评价课程
     @PostMapping("/evaluate")
     public ResponseMessage<Void> evaluateCourse(@RequestBody EvaluationDTO evaluationDTO) {
-        courseService.evaluateCourse(evaluationDTO);
-        return ResponseMessage.success(null);
+        return ResponseMessage.success(courseService.evaluateCourse(evaluationDTO));
     }
 
-    @GetMapping("/evaluate/{class}")
-    public ResponseMessage<List<Participate>> updateEvaluate(@PathVariable Integer classID) {
+    @GetMapping("/evaluate/{classID}")
+    public ResponseMessage<List<Participate>> getEvaluate(@PathVariable Integer classID) {
         try{
             return ResponseMessage.success(courseService.getEvaluate(classID));
         }

@@ -53,12 +53,12 @@ public class UserController {
         return ResponseMessage.success(profile);
     }
 
-    @GetMapping("/updateToken")
+    @PostMapping("/updateToken")
     public ResponseMessage<String> updateToken(@RequestBody String token) {
         return ResponseMessage.success("更新成功",jwtUtil.updateToken(token));
     }
 
-    @PostMapping("/getToken" )
+    @GetMapping("/getToken" )
     public ResponseMessage<String> getToken() {
         return ResponseMessage.success("更新成功",jwtUtil.generateToken(1));
     }
