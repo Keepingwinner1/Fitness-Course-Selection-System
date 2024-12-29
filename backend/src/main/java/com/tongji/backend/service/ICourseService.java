@@ -13,7 +13,7 @@ public interface ICourseService {
     List<ClassDTO> getAllCourses(Integer userId);
 
     // 根据课程类型获取课程
-    List<ClassDTO> getCoursesByType(String type);
+    //List<ClassDTO> getCoursesByType(String type);
 
     List<ClassDTO> getTodayCoursesByUser(Integer userID);
 

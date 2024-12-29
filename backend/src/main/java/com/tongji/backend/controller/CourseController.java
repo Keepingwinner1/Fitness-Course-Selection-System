@@ -34,11 +34,11 @@ public class CourseController {
     }
 
     // 根据课程类型获取课程
-    @GetMapping("/type/{type}")
+/*    @GetMapping("/type/{type}")
     public ResponseMessage<List<ClassDTO>> getCoursesByType(@PathVariable String type) {
         List<ClassDTO> courses = courseService.getCoursesByType(type);
         return ResponseMessage.success(courses);
-    }
+    }*/
 
     // 获取用户今天要上的课程
     @GetMapping("/user/{userID}/today")

@@ -66,7 +66,7 @@ public class CourseService implements ICourseService {
                 .collect(Collectors.toList());
     }
 
-    @Override
+/*    @Override
     public List<ClassDTO> getCoursesByType(String type) {
         LocalDateTime now = LocalDateTime.now();
 
@@ -84,7 +84,7 @@ public class CourseService implements ICourseService {
                 })
                 .filter(Objects::nonNull) // 过滤掉返回空的记录
                 .collect(Collectors.toList());
-    }
+    }*/
 
     @Override
     public List<ClassDTO> getTodayCoursesByUser(Integer userID) {
