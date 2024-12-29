@@ -44,7 +44,7 @@ public class CourseService implements ICourseService {
     public List<ClassDTO> getAllCourses(Integer userId) {
         LocalDateTime now = LocalDateTime.now();
         // 从 Class 表获取容量未满且结束时间小于当前时间的课程
-        List<CourseClass> availableClasses = classRepository.findAll().stream()
+        List<CourseClass> availableClasses = classRepository.findClass().stream()
                 .filter(classEntity -> classEntity.getCapacity() > 0
                         && classEntity.getCourseEndTime().isAfter(now))
                 .toList();

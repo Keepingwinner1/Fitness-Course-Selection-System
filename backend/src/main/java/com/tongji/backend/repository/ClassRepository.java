@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
@@ -71,5 +72,7 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
     @Query("SELECT c FROM CourseClass c JOIN Participate p ON c.classId = p.classId WHERE p.traineeId = :userID AND c.dayOfWeek LIKE %:dayOfWeek% AND c.courseEndTime < :now")
     List<CourseClass> findTodayClassesByUserIdAndDayOfWeek(@Param("userID") Integer userID, @Param("dayOfWeek") String dayOfWeek, @Param("now") LocalDateTime now);
 
+    @Query("select c from  CourseClass  c where c.status =1")
+    List<CourseClass> findClass();
 }
 
