@@ -17,14 +17,14 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
 
     @Query("SELECT c FROM CourseClass c " +
             "JOIN Participate p ON c.classId = p.classId " +
-            "WHERE p.traineeId = :userID AND c.courseEndTime > :now")
+            "WHERE p.traineeId = :userID AND c.courseEndTime > :now and c.courseStartTime <:now")
     List<CourseClass> findOngoingParticipatedByUser(@Param("userID") Integer userID, @Param("now") LocalDateTime now);
 
     @Query("SELECT c FROM CourseClass c JOIN Book b ON c.classId = b.classId WHERE b.traineeId = ?1 AND b.bookStatus = 0")
     List<CourseClass> findBookedByUser(Integer userID);
 
-    @Query("SELECT c FROM CourseClass c JOIN Book b ON c.classId = b.classId WHERE b.traineeId = ?1 AND b.bookStatus = 1")
-    List<CourseClass> findPaidByUser(Integer userID);
+    @Query("SELECT c FROM CourseClass c JOIN Book b ON c.classId = b.classId WHERE b.traineeId = ?1 AND b.bookStatus = 1 and c.courseStartTime>?2")
+    List<CourseClass> findPaidByUser(Integer userID,LocalDateTime now);
 
     @Query("SELECT c FROM CourseClass c JOIN Book b ON c.classId = b.classId WHERE b.traineeId = ?1 AND b.bookStatus = 2")
     List<CourseClass> findCanceledByUser(Integer userID);
@@ -74,5 +74,8 @@ public interface ClassRepository extends JpaRepository<CourseClass, Integer> {
 
     @Query("select c from  CourseClass  c where c.status =1")
     List<CourseClass> findClass();
+
+    @Query("select exists (select c from CourseClass c where c.classId=?1 and c.courseStartTime>?2)")
+    boolean existsCourseClassByClassIdAndTime(Integer classID, LocalDateTime now);
 }
 

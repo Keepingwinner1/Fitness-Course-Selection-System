@@ -19,4 +19,7 @@ public interface CoachRepository extends JpaRepository<Coach, Integer> {
 
     @Query("select c from Coach  c where c.coachID=?1")
     Coach findByCoachID(Integer coachID);
+
+    @Query("select exists (select c from Coach c where c.status=1 and c.coachID=?1)")
+    boolean existsCoachByStatus(Integer coachID);
 }

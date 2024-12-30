@@ -10,4 +10,6 @@ public interface AdviseRepository  extends JpaRepository<Advise, Integer> {
     Advise findByClassIdAndUserId(Integer classID, Integer traineeId);
 
     void deleteAdviseByClassIdAndUserId(Integer classId, @NonNull Integer userID);
+
+    void deleteByClassIdAndUserId(Integer classId, Integer traineeId);
 }

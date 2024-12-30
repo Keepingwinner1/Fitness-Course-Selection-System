@@ -18,5 +18,7 @@ public interface ParticipateRepository extends JpaRepository<Participate, Intege
 
     @Query("select p from Participate p where p.classId=?1")
     List<Participate> findParticipatesByClassId(Integer classID);
+
+    void deleteByClassIdAndTraineeId(Integer classId, Integer traineeId);
 }
 

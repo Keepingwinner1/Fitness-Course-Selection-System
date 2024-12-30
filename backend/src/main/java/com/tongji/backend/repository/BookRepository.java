@@ -10,7 +10,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     // 根据 classId 和 traineeId 查找预订信息
     @Query("SELECT b FROM Book b WHERE b.classId = ?1 AND b.traineeId = ?2")
-    List<Book> findByClassIdAndTraineeId(Integer classId, Integer traineeId);
+    Book findByClassIdAndTraineeId(Integer classId, Integer traineeId);
 
     // 获取已支付的预订
     @Query("SELECT b FROM Book b WHERE b.bookStatus = 1")
@@ -28,6 +28,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("select b from Book b where b.classId=?1 and b.traineeId=?2")
     Book findBookByClassIdAndTraineeId(Integer classId,Integer userID);
 
-    @Query("select exists (select b from Book b where b.classId=?1 and b.traineeId=?2)")
+    @Query("select exists (select b from Book b where b.classId=?1 and b.traineeId=?2 and b.bookStatus=0)")
     boolean existsBookByClassIdAndTraineeId(Integer classId, Integer traineeId);
 }

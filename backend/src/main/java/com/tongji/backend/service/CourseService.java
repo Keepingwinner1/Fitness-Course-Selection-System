@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,9 +57,9 @@ public class CourseService implements ICourseService {
                             .orElseThrow(() -> new IllegalArgumentException("课程未找到，ID：" + classEntity.getCourseId()));
                     var p=mapToClassDTO(classEntity, course);
                     var b=bookRepository.findBookByClassIdAndTraineeId(classEntity.getClassId(), userId);
-                    if(b!=null) {
+                    if(b!=null && b.getBookStatus()!=2) {
                         p.setBook(true);
-                        p.setBookId(b.getBookId());
+                        p.setBookId(b.getBookStatus()==1?-1:b.getBookId());
                     }
                     else{
                         p.setBook(false);
@@ -158,7 +159,7 @@ public class CourseService implements ICourseService {
     }
 
     public List<ClassDTO> getAllPaidCoursesByUser(Integer userID){
-        List<CourseClass> classes = classRepository.findPaidByUser(userID);
+        List<CourseClass> classes = classRepository.findPaidByUser(userID,LocalDateTime.now());
 
         return classes.stream()
                 .map(classEntity -> {
@@ -184,14 +185,22 @@ public class CourseService implements ICourseService {
 
     @Override
     public Book bookCourse(BookDTO bookDTO ) {
-        if (!bookRepository.existsBookByClassIdAndTraineeId(bookDTO.getClassId(),bookDTO.getTraineeId())) {
-            Book book = new Book();
+         Book book= bookRepository.findByClassIdAndTraineeId(bookDTO.getClassId(), bookDTO.getTraineeId());
+        if (book==null) {
+            book = new Book();
             book.setClassId(bookDTO.getClassId());
             book.setTraineeId(bookDTO.getTraineeId());
             book.setPaymentId(null);
             book.setPayMethod("default");
             book.setBookStatus(0); // 初始状态为未支付
             book.setBookTime(LocalDateTime.now());
+            return bookRepository.save(book);
+        }
+        else if(book.getBookStatus()==2){
+            book.setPayMethod("default");
+            book.setBookStatus(0);
+            book.setBookTime(LocalDateTime.now());
+            book.setPaymentId(null);
             return bookRepository.save(book);
         }
         else{
@@ -260,6 +269,9 @@ public class CourseService implements ICourseService {
     public void cancelBooking(Integer bookId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("预订不存在"));
+        if(book.getBookStatus()==1){
+            throw new IllegalArgumentException("课程已购买，无法移出购物车");
+        }
         bookRepository.delete(book);
     }
 
@@ -340,19 +352,34 @@ public class CourseService implements ICourseService {
     @Override
     @Transactional
     public void quitCourse(Integer classID, Integer userID){
-        Book book = bookRepository.findByClassId(classID);
+        Book book = bookRepository.findByClassIdAndTraineeId(classID,userID);
         if(book!=null && book.getBookStatus()==1&&!refundRepository.existsRefundByUserIDAndBookID(userID,book.getBookId())){
             Integer gymID=gymRepository.findByBookID(classID);
             Payment payment=new Payment();
-            payment.setPaymentStatus(2);
+
             payment.setPayMethod(null);
             payment.setPayTime(LocalDateTime.now());
             payment.setAmount(classRepository.findById(book.getClassId()).orElseThrow(()->new RuntimeException("未找到课程")).getCoursePrice());
-            var p =paymentRepository.save(payment);
-            refundRepository.save(new Refund(p.getPaymentId(),gymID,userID,LocalDateTime.now(),0,book.getClassId()));
+            Payment p;
+            if(classRepository.existsCourseClassByClassIdAndTime(classID,LocalDateTime.now())) {
+                payment.setPaymentStatus(3);
+                paymentRepository.save(payment);
+                book.setBookStatus(2);
+                bookRepository.save(book);
+                participateRepository.deleteByClassIdAndTraineeId(book.getClassId(),book.getTraineeId());
+                adviseRepository.deleteByClassIdAndUserId(book.getClassId(),book.getTraineeId());
+                return;
+            }
+            else {
+                payment.setPaymentStatus(2);
+                payment.setBookIds(book.getBookId().toString());
+                p =paymentRepository.save(payment);
+            }
+            refundRepository.save(new Refund(p.getPaymentId(), gymID, userID, LocalDateTime.now(), 0, book.getBookId()));
+
         }
         else{
-            throw new IllegalArgumentException("退款申请已经发送过");
+            throw new IllegalArgumentException("退款已经处理了");
         }
     }
 

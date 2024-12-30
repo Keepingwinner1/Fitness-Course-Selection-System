@@ -104,10 +104,14 @@ public class CourseController {
     // 用户取消预订课程（移出购物车）
     @DeleteMapping("/book/{bookId}")
     public ResponseMessage<Void> cancelBooking(@PathVariable Integer bookId) {
-        courseService.cancelBooking(bookId);
-        return ResponseMessage.success(null);
+        try {
+            courseService.cancelBooking(bookId);
+            return ResponseMessage.success(null);
+        }
+        catch(Exception e) {
+            return ResponseMessage.error(e.getMessage());
+        }
     }
-
     // 用户取消课程(退款)
     @PostMapping("/cancel")
     public ResponseMessage<Void> cancelCourse(@RequestBody  CancelDTO cancelDTO) {
@@ -135,7 +139,7 @@ public class CourseController {
     public ResponseMessage<String> quitCourse(@PathVariable Integer userID, @PathVariable Integer classID) {
         try {
             courseService.quitCourse(classID, userID);
-            return ResponseMessage.success("已发送退款申请");
+            return ResponseMessage.success("已进行退款处理");
         }
         catch (Exception e) {
             return ResponseMessage.error(e.getMessage());

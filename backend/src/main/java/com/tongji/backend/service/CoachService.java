@@ -57,25 +57,34 @@ public class CoachService implements ICoachService {
     @Override
     @Transactional
     public boolean createClass(NewClassDTO newClassDTO) {
-        CourseClass courseClass = new CourseClass();
-        BeanUtils.copyProperties(newClassDTO, courseClass);
-        courseClass.setStatus(0);
-        var c=classRepository.save(courseClass);
-        teachesRepository.save(new Teaches(newClassDTO.getCoachID(),c.getClassId()));
-        return true;
+        if(coachRepository.existsCoachByStatus(newClassDTO.getCoachID())) {
+            CourseClass courseClass = new CourseClass();
+            BeanUtils.copyProperties(newClassDTO, courseClass);
+            courseClass.setStatus(0);
+            var c = classRepository.save(courseClass);
+            teachesRepository.save(new Teaches(newClassDTO.getCoachID(), c.getClassId()));
+            return true;
+        }
+        else {
+            throw new IllegalArgumentException("无权创建班级");
+        }
     }
 
     @Override
     @Transactional
     public Course createCourse(NewCourseDTO newCourseDTO) {
-        Course course = new Course();
-        course.setCourseGrade(0);
-        BeanUtils.copyProperties(newCourseDTO, course);
-        var c =courseRepository.save(course);
-        coursePublishRepository.save(new CoursePublish(newCourseDTO.getCoachID(), c.getCourseId()));
-        return course;
+        if (coachRepository.existsCoachByStatus(newCourseDTO.getCoachID())) {
+            Course course = new Course();
+            course.setCourseGrade(0);
+            BeanUtils.copyProperties(newCourseDTO, course);
+            var c = courseRepository.save(course);
+            coursePublishRepository.save(new CoursePublish(newCourseDTO.getCoachID(), c.getCourseId()));
+            return course;
+        }
+        else{
+            throw new IllegalArgumentException("无权发布课程");
+        }
     }
-
     @Transactional
     @Override
     public boolean modifyClass(Integer classID, NewClassDTO classDTO){
